@@ -9,18 +9,19 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockBreakEvents{
-
+public class BlockBreakEvents {
     public BlockBreakEvents() {
-        Levelin.LOGGER.info("Hello BlockBreakEvents world!");
         PlayerBlockBreakEvents.AFTER.register((world, player, pos, state, blockEntity) -> {
-
-            Levelin.LOGGER.info("BROKE BLOCK OMEGALUL");
-
-            if (state.getBlock().equals(Blocks.GRASS)) {
-                player.addExperienceLevels(1);
-            }
+            experienceManager(world, player, pos, state, blockEntity);
         });
+    }
+
+    private void experienceManager(World world, PlayerEntity player, BlockPos pos, BlockState state, BlockEntity blockEntity) {
+        if (state.getBlock().equals(Blocks.GRASS)) {
+
+            state.getBlock().
+            player.addExperienceLevels(1);
+        }
     }
 
 

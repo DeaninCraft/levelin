@@ -16,6 +16,14 @@ repositories {
 	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
 	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
 	// for more information about repositories.
+
+	/**
+	 * Repository for Fabric Cloth API
+	 * @see https://shedaniel.gitbook.io/cloth-config
+	 */
+	maven {
+		url "https://maven.shedaniel.me/"
+	}
 }
 
 dependencies {
@@ -26,6 +34,14 @@ dependencies {
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+	/**
+	 * Required for Fabric Cltoh API
+	 * @see https://shedaniel.gitbook.io/cloth-config
+	 */
+	modApi("me.shedaniel.cloth:cloth-config-fabric:6.2.57") {
+		exclude(group: "net.fabricmc.fabric-api")
+	}
 }
 
 processResources {
