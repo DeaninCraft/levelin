@@ -22,6 +22,7 @@ public class BlockBreakEvents {
 
     public BlockBreakEvents() {
         previousBrokenBlock = Blocks.AIR;
+
         PlayerBlockBreakEvents.AFTER.register((world, player, pos, state, blockEntity) -> {
             if (world.isClient) {
                 return;
