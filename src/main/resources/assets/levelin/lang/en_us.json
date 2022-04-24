@@ -1,7 +1,8 @@
 {
   "key.levelin.levelup": "Level Up Button",
   "key.levelin.leveldown": "Level Down Button",
+  "key.levelin.characterInfo": "Toggle Character Information",
 
-  "category.levelin.levels": "Manage Your Levels"
+  "category.levelin.levels": "Manage Your Levels",
 
 }
