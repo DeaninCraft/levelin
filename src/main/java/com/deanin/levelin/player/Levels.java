@@ -28,6 +28,13 @@ public class Levels {
 
     private int totalExperience = 0;
     private int level = 1;
+
+    public int getLevelCap() {
+        return levelCap;
+    }
+
+    private int minLevel = 1;
+    private int levelCap = 100;
     /**
      * Sets the experience system to toggle between vanilla or the custom Levelin system.
      */
@@ -60,11 +67,26 @@ public class Levels {
         experienceToNextLevel = (int)amountToNextLevel;
     }
 
+    /**
+     * Calculate speed based on enchanting level
+     */
+//    public float calculatedMiningSpeed() {
+//        PlayerEntity player = MinecraftClient.getInstance().player;
+//        float levelCurve = (float)(Math.log10((player.experienceLevel / 4.0D) + 0.25D) - Math.log10(0.25D));
+//        float clampedLevelCurve = MathHelpers.clamp(levelCurve, 0.25f, 3.0f);
+//
+//        return clampedLevelCurve;
+//    }
     public float calculatedMiningSpeed() {
-        PlayerEntity player = MinecraftClient.getInstance().player;
-        float levelCurve = (float)(Math.log10((player.experienceLevel / 4.0D) + 0.25D) - Math.log10(0.25D));
+        float levelCurve = (float)(Math.log10((level / 4.0D) + 0.25D) - Math.log10(0.25D));
         float clampedLevelCurve = MathHelpers.clamp(levelCurve, 0.25f, 3.0f);
 
         return clampedLevelCurve;
+    }
+    public void levelUp() {
+        level += 1;
+    }
+    public void levelDown() {
+        level = (int)MathHelpers.clamp(level - 1, minLevel, levelCap);
     }
 }

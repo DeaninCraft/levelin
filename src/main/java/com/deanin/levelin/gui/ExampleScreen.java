@@ -8,4 +8,6 @@ public class ExampleScreen extends CottonClientScreen {
     public ExampleScreen(GuiDescription description) {
         super(description);
     }
+
+
 }

@@ -2,6 +2,7 @@ package com.deanin.levelin;
 
 import com.deanin.levelin.gui.ExampleGui;
 import com.deanin.levelin.gui.ExampleScreen;
+import com.deanin.levelin.gui.ExperienceBar;
 import com.deanin.levelin.items.GuiItem;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -11,6 +12,7 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
@@ -31,8 +33,9 @@ public class LevelinClient implements ClientModInitializer {
      */
     @Override
     public void onInitializeClient() {
-
-
+//        ExperienceBar experienceBar = new ExperienceBar();
+//        MatrixStack matrixStack = new MatrixStack();
+//        experienceBar.renderExperienceBar(matrixStack, 1);
 
         // Event registration will be executed inside this method
         levelUpButton = KeyBindingHelper.registerKeyBinding(new KeyBinding(
@@ -57,11 +60,10 @@ public class LevelinClient implements ClientModInitializer {
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (levelUpButton.wasPressed()) {
-                client.player.addExperienceLevels(1);
-
+                Levelin.levels.levelUp();
             }
             if (levelDownButton.wasPressed()) {
-                client.player.addExperienceLevels(-1);
+                Levelin.levels.levelDown();
             }
             if (characterInfoButton.wasPressed()) {
                 MinecraftClient.getInstance().setScreen(new ExampleScreen(new ExampleGui()));
