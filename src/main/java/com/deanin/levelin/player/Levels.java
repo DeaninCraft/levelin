@@ -90,7 +90,7 @@ public class Levels {
         level += 1;
     }
     public void levelDown() {
-        level = (int)MathHelpers.clampFloat(level - 1, minLevel, levelCap);
+        level = MathHelpers.clampInt(level - 1, minLevel, levelCap);
     }
 
     public float getProgressToNextLevel() {

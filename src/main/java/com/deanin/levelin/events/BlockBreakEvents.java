@@ -3,25 +3,33 @@ package com.deanin.levelin.events;
 import com.deanin.levelin.Levelin;
 import com.deanin.levelin.player.Levels;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
+import net.fabricmc.yarn.constants.MiningLevels;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.ExperienceOrbEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.tag.BlockTags;
 import net.minecraft.tag.TagKey;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.world.World;
 
 public class BlockBreakEvents {
     private Block previousBrokenBlock;
     private int blockBreakStreak = 0;
     private int blockStreakLimit = 25;
+    private int replaceablePlantExperience = 1;
+    private int grassBlockExperience = 1;
+    private int baseStoneOverworldExperience = 2;
+    private int woodCuttingExperience = 2;
+    private int coalExperience = 3;
+    private int ironExperience = 8;
+    private int redstoneExperience = 8;
+    private int goldExperience = 12;
+    private int diamondExperience = 16;
+    private int netheriteExperience = 64;
 
-    private int experienceAmount = 1;
 
     private static Levels levels;
 
@@ -38,45 +46,102 @@ public class BlockBreakEvents {
 
     public void experienceManager(World world, PlayerEntity player, BlockPos pos, BlockState state, BlockEntity blockEntity) {
         Block brokenBlock = state.getBlock();
-        if (manageGrassExperience(world, pos, state, blockEntity, brokenBlock)) return;
-        if (manageGrassBlockExperience(world, pos, state, blockEntity, brokenBlock)) return;
-        if (manageBaseStoneOverworldExperience(world, pos, state, blockEntity, brokenBlock)) return;
-        if (manageWoodCuttingExperiencce(world, pos, state, blockEntity, brokenBlock)) return;
+        if (manageReplaceablePlants(state, brokenBlock)) return;
+        if (manageGrassBlockExperience(state, brokenBlock)) return;
+        if (manageBaseStoneOverworldExperience(state, brokenBlock)) return;
+        if (manageWoodCuttingExperience(state, brokenBlock)) return;
+
+        if (manageCoalExperience(state, brokenBlock)) return;
+        if (manageIronExperience(state, brokenBlock)) return;
+        if (manageRedstoneExperience(state, brokenBlock)) return;
+        if (manageGoldExperience(state, brokenBlock)) return;
+        if (manageDiamondExperience(state, brokenBlock)) return;
+        if (manageNetheriteExperience(state, brokenBlock)) return;
 
         previousBrokenBlock = brokenBlock;
     }
 
-    private boolean manageGrassExperience(World world, BlockPos pos, BlockState state, BlockEntity blockEntity, Block brokenBlock) {
-        if (brokenBlock.equals(Blocks.GRASS)) {
-            if (handleBlockExperience(world, pos, state, blockEntity, brokenBlock)) return true;
-        }
-        return false;
-    }
-    private boolean manageGrassBlockExperience(World world, BlockPos pos, BlockState state, BlockEntity blockEntity, Block brokenBlock) {
-        TagKey<Block> shoveledBlocks = BlockTags.SHOVEL_MINEABLE;
-        if (state.isIn(shoveledBlocks)) {
-            if (handleBlockExperience(world, pos, state, blockEntity, brokenBlock)) return true;
+    private boolean manageCoalExperience(BlockState state, Block brokenBlock) {
+        TagKey<Block> blockTags = BlockTags.COAL_ORES;
+        if (state.isIn(blockTags)) {
+            if (handleBlockExperience(brokenBlock, coalExperience)) return true;
         }
         return false;
     }
 
-    private boolean manageBaseStoneOverworldExperience(World world, BlockPos pos, BlockState state, BlockEntity blockEntity, Block brokenBlock) {
-        TagKey<Block> shoveledBlocks = BlockTags.BASE_STONE_OVERWORLD;
-        if (state.isIn(shoveledBlocks)) {
-            if (handleBlockExperience(world, pos, state, blockEntity, brokenBlock)) return true;
+    private boolean manageIronExperience(BlockState state, Block brokenBlock) {
+        TagKey<Block> blockTags = BlockTags.IRON_ORES;
+        if (state.isIn(blockTags)) {
+            if (handleBlockExperience(brokenBlock, ironExperience)) return true;
         }
         return false;
     }
 
-    private boolean manageWoodCuttingExperiencce(World world, BlockPos pos, BlockState state, BlockEntity blockEntity, Block brokenBlock) {
-        TagKey<Block> logs = BlockTags.LOGS;
-        if (state.isIn(logs)){
-            if (handleBlockExperience(world, pos, state, blockEntity, brokenBlock)) return true;
+    private boolean manageRedstoneExperience(BlockState state, Block brokenBlock) {
+        TagKey<Block> blockTags = BlockTags.REDSTONE_ORES;
+        if (state.isIn(blockTags)) {
+            if (handleBlockExperience(brokenBlock, redstoneExperience)) return true;
         }
         return false;
     }
 
-    private boolean handleBlockExperience(World world, BlockPos pos, BlockState state, BlockEntity blockEntity, Block brokenBlock) {
+    private boolean manageGoldExperience(BlockState state, Block brokenBlock) {
+        TagKey<Block> blockTags = BlockTags.GOLD_ORES;
+        if (state.isIn(blockTags)) {
+            if (handleBlockExperience(brokenBlock, goldExperience)) return true;
+        }
+        return false;
+    }
+
+    private boolean manageDiamondExperience(BlockState state, Block brokenBlock) {
+        TagKey<Block> blockTags = BlockTags.DIAMOND_ORES;
+        if (state.isIn(blockTags)) {
+            if (handleBlockExperience(brokenBlock, diamondExperience)) return true;
+        }
+        return false;
+    }
+
+    private boolean manageNetheriteExperience(BlockState state, Block brokenBlock) {
+        if (state.getBlock().equals(Blocks.ANCIENT_DEBRIS)) {
+            if (handleBlockExperience(brokenBlock, netheriteExperience)) return true;
+        }
+        return false;
+    }
+
+    private boolean manageReplaceablePlants(BlockState state, Block brokenBlock) {
+        TagKey<Block> blockTags = BlockTags.REPLACEABLE_PLANTS;
+        if (state.isIn(blockTags)) {
+            if (handleBlockExperience(brokenBlock, replaceablePlantExperience)) return true;
+        }
+        return false;
+    }
+
+    private boolean manageGrassBlockExperience(BlockState state, Block brokenBlock) {
+        TagKey<Block> blockTags = BlockTags.SHOVEL_MINEABLE;
+        if (state.isIn(blockTags)) {
+            if (handleBlockExperience(brokenBlock, grassBlockExperience)) return true;
+        }
+        return false;
+    }
+
+    private boolean manageBaseStoneOverworldExperience(BlockState state, Block brokenBlock) {
+        TagKey<Block> blockTags = BlockTags.BASE_STONE_OVERWORLD;
+        if (state.isIn(blockTags)) {
+            if (handleBlockExperience(brokenBlock, baseStoneOverworldExperience)) return true;
+        }
+        return false;
+    }
+
+    private boolean manageWoodCuttingExperience(BlockState state, Block brokenBlock) {
+        TagKey<Block> blockTags = BlockTags.LOGS;
+        if (state.isIn(blockTags)){
+            if (handleBlockExperience(brokenBlock, woodCuttingExperience)) return true;
+        }
+        return false;
+    }
+
+    private boolean handleBlockExperience(Block brokenBlock,
+                                          int experienceToAward) {
         if (brokenBlock.equals(previousBrokenBlock)) {
             blockBreakStreak++;
             if (blockBreakStreak > blockStreakLimit) {
@@ -85,21 +150,7 @@ public class BlockBreakEvents {
         } else {
             blockBreakStreak = 1;
         }
-        UniformIntProvider.create(0, 25);
-        brokenBlock.getDroppedStacks(
-                state,
-                (ServerWorld) world,
-                pos,
-                blockEntity
-        );
-        ExperienceOrbEntity experienceOrbEntity = new ExperienceOrbEntity(
-                world,
-                pos.getX(),
-                pos.getY(),
-                pos.getZ(),
-                experienceAmount);
-        world.spawnEntity(experienceOrbEntity);
-        levels.addExperience(1);
+        levels.addExperience(experienceToAward);
         return false;
     }
 
