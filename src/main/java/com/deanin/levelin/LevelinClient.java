@@ -24,10 +24,6 @@ public class LevelinClient implements ClientModInitializer {
      */
     @Override
     public void onInitializeClient() {
-//        ExperienceBar experienceBar = new ExperienceBar();
-//        MatrixStack matrixStack = new MatrixStack();
-//        experienceBar.renderExperienceBar(matrixStack, 1);
-
         // Event registration will be executed inside this method
         levelUpButton = KeyBindingHelper.registerKeyBinding(new KeyBinding(
                 "key.levelin.levelup", // The translation key of the keybinding's name

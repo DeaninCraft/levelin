@@ -2,13 +2,8 @@ package com.deanin.levelin;
 
 import com.deanin.levelin.enums.ExperienceSystem;
 import com.deanin.levelin.events.BlockBreakEvents;
-import com.deanin.levelin.items.GuiItem;
 import com.deanin.levelin.player.Levels;
 import net.fabricmc.api.ModInitializer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,9 +19,6 @@ public class Levelin implements ModInitializer {
 
 	public static Levels levels;
 
-//	public static Item GUI_ITEM = new GuiItem(new Item.Settings().group(ItemGroup.MISC));
-
-
 	@Override
 	public void onInitialize() {
 		// This code runs as soon as Minecraft is in a mod-load-ready state.
@@ -37,7 +29,5 @@ public class Levelin implements ModInitializer {
 		levels = new Levels(experienceSystem);
 		BlockBreakEvents blockBreakEvents = new BlockBreakEvents();
 
-
-//		Registry.register(Registry.ITEM, new Identifier("levelin", "gui_item"), GUI_ITEM);
 	}
 }
