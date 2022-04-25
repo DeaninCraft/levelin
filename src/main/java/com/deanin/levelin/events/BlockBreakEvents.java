@@ -24,6 +24,7 @@ public class BlockBreakEvents {
     private int baseStoneOverworldExperience = 2;
     private int woodCuttingExperience = 2;
     private int coalExperience = 3;
+    private int copperExperience = 6;
     private int ironExperience = 8;
     private int redstoneExperience = 8;
     private int goldExperience = 12;
@@ -52,6 +53,7 @@ public class BlockBreakEvents {
         if (manageWoodCuttingExperience(state, brokenBlock)) return;
 
         if (manageCoalExperience(state, brokenBlock)) return;
+        if (manageCopperExperience(state, brokenBlock)) return;
         if (manageIronExperience(state, brokenBlock)) return;
         if (manageRedstoneExperience(state, brokenBlock)) return;
         if (manageGoldExperience(state, brokenBlock)) return;
@@ -65,6 +67,14 @@ public class BlockBreakEvents {
         TagKey<Block> blockTags = BlockTags.COAL_ORES;
         if (state.isIn(blockTags)) {
             if (handleBlockExperience(brokenBlock, coalExperience)) return true;
+        }
+        return false;
+    }
+
+    private boolean manageCopperExperience(BlockState state, Block brokenBlock) {
+        TagKey<Block> blockTags = BlockTags.COPPER_ORES;
+        if (state.isIn(blockTags)) {
+            if (handleBlockExperience(brokenBlock, copperExperience)) return true;
         }
         return false;
     }
