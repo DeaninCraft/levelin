@@ -3,13 +3,11 @@ package com.deanin.levelin.events;
 import com.deanin.levelin.Levelin;
 import com.deanin.levelin.player.Levels;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
-import net.fabricmc.yarn.constants.MiningLevels;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.tag.BlockTags;
 import net.minecraft.tag.TagKey;
 import net.minecraft.util.math.BlockPos;
@@ -19,18 +17,17 @@ public class BlockBreakEvents {
     private Block previousBrokenBlock;
     private int blockBreakStreak = 0;
     private int blockStreakLimit = 25;
-    private int replaceablePlantExperience = 1;
-    private int grassBlockExperience = 1;
-    private int baseStoneOverworldExperience = 2;
-    private int woodCuttingExperience = 2;
-    private int coalExperience = 3;
-    private int copperExperience = 6;
-    private int ironExperience = 8;
-    private int redstoneExperience = 8;
-    private int goldExperience = 12;
-    private int diamondExperience = 16;
-    private int netheriteExperience = 64;
-
+    private static final int REPLACEABLE_PLANT_EXPERIENCE = 1;
+    private static final int GRASS_BLOCK_EXPERIENCE = 1;
+    private static final int BASE_STONE_OVERWORLD_EXPERIENCE = 2;
+    private static final int WOOD_CUTTING_EXPERIENCE = 2;
+    private static final int COAL_EXPERIENCE = 3;
+    private static final int COPPER_EXPERIENCE = 6;
+    private static final int IRON_EXPERIENCE = 8;
+    private static final int REDSTONE_EXPERIENCE = 8;
+    private static final int GOLD_EXPERIENCE = 12;
+    private static final int DIAMOND_EXPERIENCE = 16;
+    private static final int NETHERITE_EXPERIENCE = 64;
 
     private static Levels levels;
 
@@ -66,7 +63,7 @@ public class BlockBreakEvents {
     private boolean manageCoalExperience(BlockState state, Block brokenBlock) {
         TagKey<Block> blockTags = BlockTags.COAL_ORES;
         if (state.isIn(blockTags)) {
-            if (handleBlockExperience(brokenBlock, coalExperience)) return true;
+            if (handleBlockExperience(brokenBlock, COAL_EXPERIENCE)) return true;
         }
         return false;
     }
@@ -74,7 +71,7 @@ public class BlockBreakEvents {
     private boolean manageCopperExperience(BlockState state, Block brokenBlock) {
         TagKey<Block> blockTags = BlockTags.COPPER_ORES;
         if (state.isIn(blockTags)) {
-            if (handleBlockExperience(brokenBlock, copperExperience)) return true;
+            if (handleBlockExperience(brokenBlock, COPPER_EXPERIENCE)) return true;
         }
         return false;
     }
@@ -82,7 +79,7 @@ public class BlockBreakEvents {
     private boolean manageIronExperience(BlockState state, Block brokenBlock) {
         TagKey<Block> blockTags = BlockTags.IRON_ORES;
         if (state.isIn(blockTags)) {
-            if (handleBlockExperience(brokenBlock, ironExperience)) return true;
+            if (handleBlockExperience(brokenBlock, IRON_EXPERIENCE)) return true;
         }
         return false;
     }
@@ -90,7 +87,7 @@ public class BlockBreakEvents {
     private boolean manageRedstoneExperience(BlockState state, Block brokenBlock) {
         TagKey<Block> blockTags = BlockTags.REDSTONE_ORES;
         if (state.isIn(blockTags)) {
-            if (handleBlockExperience(brokenBlock, redstoneExperience)) return true;
+            if (handleBlockExperience(brokenBlock, REDSTONE_EXPERIENCE)) return true;
         }
         return false;
     }
@@ -98,7 +95,7 @@ public class BlockBreakEvents {
     private boolean manageGoldExperience(BlockState state, Block brokenBlock) {
         TagKey<Block> blockTags = BlockTags.GOLD_ORES;
         if (state.isIn(blockTags)) {
-            if (handleBlockExperience(brokenBlock, goldExperience)) return true;
+            if (handleBlockExperience(brokenBlock, GOLD_EXPERIENCE)) return true;
         }
         return false;
     }
@@ -106,14 +103,14 @@ public class BlockBreakEvents {
     private boolean manageDiamondExperience(BlockState state, Block brokenBlock) {
         TagKey<Block> blockTags = BlockTags.DIAMOND_ORES;
         if (state.isIn(blockTags)) {
-            if (handleBlockExperience(brokenBlock, diamondExperience)) return true;
+            if (handleBlockExperience(brokenBlock, DIAMOND_EXPERIENCE)) return true;
         }
         return false;
     }
 
     private boolean manageNetheriteExperience(BlockState state, Block brokenBlock) {
         if (state.getBlock().equals(Blocks.ANCIENT_DEBRIS)) {
-            if (handleBlockExperience(brokenBlock, netheriteExperience)) return true;
+            if (handleBlockExperience(brokenBlock, NETHERITE_EXPERIENCE)) return true;
         }
         return false;
     }
@@ -121,7 +118,7 @@ public class BlockBreakEvents {
     private boolean manageReplaceablePlants(BlockState state, Block brokenBlock) {
         TagKey<Block> blockTags = BlockTags.REPLACEABLE_PLANTS;
         if (state.isIn(blockTags)) {
-            if (handleBlockExperience(brokenBlock, replaceablePlantExperience)) return true;
+            if (handleBlockExperience(brokenBlock, REPLACEABLE_PLANT_EXPERIENCE)) return true;
         }
         return false;
     }
@@ -129,7 +126,7 @@ public class BlockBreakEvents {
     private boolean manageGrassBlockExperience(BlockState state, Block brokenBlock) {
         TagKey<Block> blockTags = BlockTags.SHOVEL_MINEABLE;
         if (state.isIn(blockTags)) {
-            if (handleBlockExperience(brokenBlock, grassBlockExperience)) return true;
+            if (handleBlockExperience(brokenBlock, GRASS_BLOCK_EXPERIENCE)) return true;
         }
         return false;
     }
@@ -137,7 +134,7 @@ public class BlockBreakEvents {
     private boolean manageBaseStoneOverworldExperience(BlockState state, Block brokenBlock) {
         TagKey<Block> blockTags = BlockTags.BASE_STONE_OVERWORLD;
         if (state.isIn(blockTags)) {
-            if (handleBlockExperience(brokenBlock, baseStoneOverworldExperience)) return true;
+            if (handleBlockExperience(brokenBlock, BASE_STONE_OVERWORLD_EXPERIENCE)) return true;
         }
         return false;
     }
@@ -145,7 +142,7 @@ public class BlockBreakEvents {
     private boolean manageWoodCuttingExperience(BlockState state, Block brokenBlock) {
         TagKey<Block> blockTags = BlockTags.LOGS;
         if (state.isIn(blockTags)){
-            if (handleBlockExperience(brokenBlock, woodCuttingExperience)) return true;
+            if (handleBlockExperience(brokenBlock, WOOD_CUTTING_EXPERIENCE)) return true;
         }
         return false;
     }
