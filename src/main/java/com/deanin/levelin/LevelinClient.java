@@ -60,10 +60,10 @@ public class LevelinClient implements ClientModInitializer {
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (levelUpButton.wasPressed()) {
-                Levelin.levels.levelUp();
+                Levelin.levels.addExperience(1);
             }
             if (levelDownButton.wasPressed()) {
-                Levelin.levels.levelDown();
+                Levelin.levels.addExperience(-1);
             }
             if (characterInfoButton.wasPressed()) {
                 MinecraftClient.getInstance().setScreen(new ExampleScreen(new ExampleGui()));

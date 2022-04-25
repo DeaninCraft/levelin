@@ -2,8 +2,6 @@ package com.deanin.levelin.player;
 
 import com.deanin.levelin.enums.ExperienceSystem;
 import com.deanin.utils.MathHelpers;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.entity.player.PlayerEntity;
 
 public class Levels {
 
@@ -46,12 +44,17 @@ public class Levels {
     }
 
     public void addExperience(int experienceToAdd) {
-        currentExperience += experienceToAdd;
-        totalExperience += experienceToAdd;
+        currentExperience = MathHelpers.clampInt(currentExperience += experienceToAdd, 0, Integer.MAX_VALUE);
+        totalExperience = MathHelpers.clampInt(totalExperience += experienceToAdd, 0, Integer.MAX_VALUE);
         while (currentExperience >= experienceToNextLevel) {
             level++;
             currentExperience -= experienceToNextLevel;
             calculateExperienceToNextLevel();
+        }
+        if (currentExperience < 0) {
+            level--;
+            calculateExperienceToNextLevel();
+            currentExperience += experienceToNextLevel - 1;
         }
     }
 
@@ -61,9 +64,9 @@ public class Levels {
     private void calculateExperienceToNextLevel() {
         int base = 2;
         double exponent = level / 8.0;
-        double square = Math.sqrt(level) + 1;
+        double square = Math.sqrt(level);
 
-        double amountToNextLevel = Math.pow(base, exponent) * square;
+        double amountToNextLevel = Math.pow(base, exponent) * (square + 50);
         experienceToNextLevel = (int)amountToNextLevel;
     }
 
@@ -79,7 +82,7 @@ public class Levels {
 //    }
     public float calculatedMiningSpeed() {
         float levelCurve = (float)(Math.log10((level / 4.0D) + 0.25D) - Math.log10(0.25D));
-        float clampedLevelCurve = MathHelpers.clamp(levelCurve, 0.25f, 3.0f);
+        float clampedLevelCurve = MathHelpers.clampFloat(levelCurve, 0.25f, 3.0f);
 
         return clampedLevelCurve;
     }
@@ -87,6 +90,10 @@ public class Levels {
         level += 1;
     }
     public void levelDown() {
-        level = (int)MathHelpers.clamp(level - 1, minLevel, levelCap);
+        level = (int)MathHelpers.clampFloat(level - 1, minLevel, levelCap);
+    }
+
+    public float getProgressToNextLevel() {
+        return (float)currentExperience / (float)experienceToNextLevel;
     }
 }
