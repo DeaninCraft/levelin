@@ -5,6 +5,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.Window;
@@ -19,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import static net.minecraft.client.gui.DrawableHelper.drawTexture;
 
 @Mixin(InGameHud.class)
-public class ExperienceBarMixin {
+public class ExperienceBarMixin  extends DrawableHelper {
     private static final Identifier EXP_BAR_TEXTURE = new Identifier("levelin", "textures/gui/expbar.png");
     private static final Identifier EXP_BAR_FILLED_TEXTURE = new Identifier("levelin", "textures/gui/expbar_filled.png");
     private static final Identifier EXP_BAR_DECORATIONS_TEXTURE = new Identifier("levelin", "textures/gui/expbar_decorations.png");
@@ -31,13 +32,16 @@ public class ExperienceBarMixin {
     private int scaledExperienceBarWidth;
     private int scaledExperienceBarHeight;
 
-    @Inject(method = "render",
-            at = @At(value = "INVOKE",
-                    target = "Lcom/mojang/blaze3d/systems/RenderSystem;setShaderColor(FFFF)V"),
-            slice =
-            @Slice(from =
-            @At(value = "INVOKE",
-                    target = "Lnet/minecraft/client/gui/hud/PlayerListHud;render(Lnet/minecraft/client/util/math/MatrixStack;ILnet/minecraft/scoreboard/Scoreboard;Lnet/minecraft/scoreboard/ScoreboardObjective;)V")))
+//    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;" +
+//            "setShaderColor(FFFF)V"),
+//            slice =
+//            @Slice(from =
+//            @At(value = "INVOKE",
+//                    target = "Lnet/minecraft/client/gui/hud/PlayerListHud;" +
+//                            "render(Lnet/minecraft/client/util/math/MatrixStack;I" +
+//                            "Lnet/minecraft/scoreboard/Scoreboard;" +
+//                            "Lnet/minecraft/scoreboard/ScoreboardObjective;)V")))
+    @Inject(method="render", at = @At("TAIL"), cancellable = true)
     public void render(MatrixStack matrixStack, float tickDelta, CallbackInfo callbackInfo) {
         TextRenderer renderer = MinecraftClient.getInstance().textRenderer;
         Window window = MinecraftClient.getInstance().getWindow();
@@ -68,6 +72,7 @@ public class ExperienceBarMixin {
     }
 
     public MatrixStack drawExperienceBar(MatrixStack matrixStack, Window window) {
+
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, EXP_BAR_TEXTURE);

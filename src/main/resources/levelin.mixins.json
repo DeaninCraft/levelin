@@ -4,11 +4,10 @@
   "package": "com.deanin.levelin.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-  ],
-  "client": [
-    "ExampleMixin",
     "MiningMixin",
     "ExperienceBarMixin"
+  ],
+  "client": [
   ],
   "injectors": {
     "defaultRequire": 1
