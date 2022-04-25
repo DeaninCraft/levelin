@@ -38,24 +38,45 @@ public class BlockBreakEvents {
             if (world.isClient) {
                 return;
             }
-            experienceManager(world, player, pos, state, blockEntity);
+            experienceManager(state);
         });
     }
 
-    public void experienceManager(World world, PlayerEntity player, BlockPos pos, BlockState state, BlockEntity blockEntity) {
+    public void experienceManager(BlockState state) {
         Block brokenBlock = state.getBlock();
-        if (manageReplaceablePlants(state, brokenBlock)) return;
-        if (manageGrassBlockExperience(state, brokenBlock)) return;
-        if (manageBaseStoneOverworldExperience(state, brokenBlock)) return;
-        if (manageWoodCuttingExperience(state, brokenBlock)) return;
-
-        if (manageCoalExperience(state, brokenBlock)) return;
-        if (manageCopperExperience(state, brokenBlock)) return;
-        if (manageIronExperience(state, brokenBlock)) return;
-        if (manageRedstoneExperience(state, brokenBlock)) return;
-        if (manageGoldExperience(state, brokenBlock)) return;
-        if (manageDiamondExperience(state, brokenBlock)) return;
-        if (manageNetheriteExperience(state, brokenBlock)) return;
+        if (manageReplaceablePlants(state, brokenBlock)) {
+            return;
+        }
+        if (manageGrassBlockExperience(state, brokenBlock)) {
+            return;
+        }
+        if (manageBaseStoneOverworldExperience(state, brokenBlock)) {
+            return;
+        }
+        if (manageWoodCuttingExperience(state, brokenBlock)) {
+            return;
+        }
+        if (manageCoalExperience(state, brokenBlock)) {
+            return;
+        }
+        if (manageCopperExperience(state, brokenBlock)) {
+            return;
+        }
+        if (manageIronExperience(state, brokenBlock)) {
+            return;
+        }
+        if (manageRedstoneExperience(state, brokenBlock)) {
+            return;
+        }
+        if (manageGoldExperience(state, brokenBlock)) {
+            return;
+        }
+        if (manageDiamondExperience(state, brokenBlock)) {
+            return;
+        }
+        if (manageNetheriteExperience(state, brokenBlock)) {
+            return;
+        }
 
         previousBrokenBlock = brokenBlock;
     }
@@ -63,7 +84,9 @@ public class BlockBreakEvents {
     private boolean manageCoalExperience(BlockState state, Block brokenBlock) {
         TagKey<Block> blockTags = BlockTags.COAL_ORES;
         if (state.isIn(blockTags)) {
-            if (handleBlockExperience(brokenBlock, COAL_EXPERIENCE)) return true;
+            if (handleBlockExperience(brokenBlock, COAL_EXPERIENCE)) {
+                return true;
+            }
         }
         return false;
     }
@@ -71,7 +94,9 @@ public class BlockBreakEvents {
     private boolean manageCopperExperience(BlockState state, Block brokenBlock) {
         TagKey<Block> blockTags = BlockTags.COPPER_ORES;
         if (state.isIn(blockTags)) {
-            if (handleBlockExperience(brokenBlock, COPPER_EXPERIENCE)) return true;
+            if (handleBlockExperience(brokenBlock, COPPER_EXPERIENCE)) {
+                return true;
+            }
         }
         return false;
     }
@@ -79,7 +104,9 @@ public class BlockBreakEvents {
     private boolean manageIronExperience(BlockState state, Block brokenBlock) {
         TagKey<Block> blockTags = BlockTags.IRON_ORES;
         if (state.isIn(blockTags)) {
-            if (handleBlockExperience(brokenBlock, IRON_EXPERIENCE)) return true;
+            if (handleBlockExperience(brokenBlock, IRON_EXPERIENCE)) {
+                return true;
+            }
         }
         return false;
     }
@@ -87,7 +114,9 @@ public class BlockBreakEvents {
     private boolean manageRedstoneExperience(BlockState state, Block brokenBlock) {
         TagKey<Block> blockTags = BlockTags.REDSTONE_ORES;
         if (state.isIn(blockTags)) {
-            if (handleBlockExperience(brokenBlock, REDSTONE_EXPERIENCE)) return true;
+            if (handleBlockExperience(brokenBlock, REDSTONE_EXPERIENCE)) {
+                return true;
+            }
         }
         return false;
     }
@@ -95,7 +124,9 @@ public class BlockBreakEvents {
     private boolean manageGoldExperience(BlockState state, Block brokenBlock) {
         TagKey<Block> blockTags = BlockTags.GOLD_ORES;
         if (state.isIn(blockTags)) {
-            if (handleBlockExperience(brokenBlock, GOLD_EXPERIENCE)) return true;
+            if (handleBlockExperience(brokenBlock, GOLD_EXPERIENCE)) {
+                return true;
+            }
         }
         return false;
     }
@@ -103,14 +134,18 @@ public class BlockBreakEvents {
     private boolean manageDiamondExperience(BlockState state, Block brokenBlock) {
         TagKey<Block> blockTags = BlockTags.DIAMOND_ORES;
         if (state.isIn(blockTags)) {
-            if (handleBlockExperience(brokenBlock, DIAMOND_EXPERIENCE)) return true;
+            if (handleBlockExperience(brokenBlock, DIAMOND_EXPERIENCE)) {
+                return true;
+            }
         }
         return false;
     }
 
     private boolean manageNetheriteExperience(BlockState state, Block brokenBlock) {
         if (state.getBlock().equals(Blocks.ANCIENT_DEBRIS)) {
-            if (handleBlockExperience(brokenBlock, NETHERITE_EXPERIENCE)) return true;
+            if (handleBlockExperience(brokenBlock, NETHERITE_EXPERIENCE)) {
+                return true;
+            }
         }
         return false;
     }
@@ -118,7 +153,9 @@ public class BlockBreakEvents {
     private boolean manageReplaceablePlants(BlockState state, Block brokenBlock) {
         TagKey<Block> blockTags = BlockTags.REPLACEABLE_PLANTS;
         if (state.isIn(blockTags)) {
-            if (handleBlockExperience(brokenBlock, REPLACEABLE_PLANT_EXPERIENCE)) return true;
+            if (handleBlockExperience(brokenBlock, REPLACEABLE_PLANT_EXPERIENCE)) {
+                return true;
+            }
         }
         return false;
     }
@@ -126,7 +163,9 @@ public class BlockBreakEvents {
     private boolean manageGrassBlockExperience(BlockState state, Block brokenBlock) {
         TagKey<Block> blockTags = BlockTags.SHOVEL_MINEABLE;
         if (state.isIn(blockTags)) {
-            if (handleBlockExperience(brokenBlock, GRASS_BLOCK_EXPERIENCE)) return true;
+            if (handleBlockExperience(brokenBlock, GRASS_BLOCK_EXPERIENCE)) {
+                return true;
+            }
         }
         return false;
     }
@@ -134,7 +173,9 @@ public class BlockBreakEvents {
     private boolean manageBaseStoneOverworldExperience(BlockState state, Block brokenBlock) {
         TagKey<Block> blockTags = BlockTags.BASE_STONE_OVERWORLD;
         if (state.isIn(blockTags)) {
-            if (handleBlockExperience(brokenBlock, BASE_STONE_OVERWORLD_EXPERIENCE)) return true;
+            if (handleBlockExperience(brokenBlock, BASE_STONE_OVERWORLD_EXPERIENCE)) {
+                return true;
+            }
         }
         return false;
     }
@@ -142,13 +183,23 @@ public class BlockBreakEvents {
     private boolean manageWoodCuttingExperience(BlockState state, Block brokenBlock) {
         TagKey<Block> blockTags = BlockTags.LOGS;
         if (state.isIn(blockTags)){
-            if (handleBlockExperience(brokenBlock, WOOD_CUTTING_EXPERIENCE)) return true;
+            if (handleBlockExperience(brokenBlock, WOOD_CUTTING_EXPERIENCE)) {
+                return true;
+            }
         }
         return false;
     }
 
     private boolean handleBlockExperience(Block brokenBlock,
                                           int experienceToAward) {
+        if (calculateBlockStreak(brokenBlock)) {
+            return true;
+        }
+        levels.addExperience(experienceToAward);
+        return false;
+    }
+
+    private boolean calculateBlockStreak(Block brokenBlock) {
         if (brokenBlock.equals(previousBrokenBlock)) {
             blockBreakStreak++;
             if (blockBreakStreak > blockStreakLimit) {
@@ -157,9 +208,6 @@ public class BlockBreakEvents {
         } else {
             blockBreakStreak = 1;
         }
-        levels.addExperience(experienceToAward);
         return false;
     }
-
-
 }
