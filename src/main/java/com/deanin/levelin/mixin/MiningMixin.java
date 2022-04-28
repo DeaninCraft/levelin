@@ -1,6 +1,7 @@
 package com.deanin.levelin.mixin;
 
 import com.deanin.levelin.Levelin;
+import com.deanin.levelin.Manager;
 import net.minecraft.block.AbstractBlock;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -17,7 +18,7 @@ public class MiningMixin {
      */
     @Inject(at = @At("RETURN"), method="calcBlockBreakingDelta", cancellable = true)
     private void injected(CallbackInfoReturnable<Float> cir) {
-        float miningSpeed = Levelin.character.attributes.getMiningSpeed().calculatedMiningSpeed();
+        float miningSpeed = Manager.player.attributes.getMiningSpeed().calculatedMiningSpeed();
         cir.setReturnValue(cir.getReturnValueF() * miningSpeed);
     }
 }

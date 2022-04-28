@@ -7,6 +7,7 @@
     "MiningMixin"
   ],
   "client": [
+    "ExperienceBarMixin"
   ],
   "injectors": {
     "defaultRequire": 1
