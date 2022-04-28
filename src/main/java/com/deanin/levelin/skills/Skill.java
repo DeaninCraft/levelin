@@ -116,6 +116,7 @@ public abstract class Skill {
         this.description = description;
         setLevel(level);
         setLevelCap(levelCap);
+        calculateExperienceToNextLevel();
     }
 
     /**
@@ -186,7 +187,7 @@ public abstract class Skill {
     /**
      * f(x) = 2^(x/8)*(sqrt(x)+1)
      */
-    private void calculateExperienceToNextLevel() {
+    public void calculateExperienceToNextLevel() {
         int base = 2;
         double exponent = level / 8.0;
         double square = Math.sqrt(level);
