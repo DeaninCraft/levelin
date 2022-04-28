@@ -1,8 +1,7 @@
 package com.deanin.levelin;
 
-import com.deanin.levelin.gui.ExampleGui;
-import com.deanin.levelin.gui.ExampleScreen;
-import com.deanin.levelin.player.PlayerCharacter;
+import com.deanin.levelin.gui.CharacterInfoPage;
+import com.deanin.levelin.gui.LevelinScreen;
 import com.deanin.levelin.skills.mining.Mining;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -57,7 +56,7 @@ public class LevelinClient implements ClientModInitializer {
                 mining.addExperience(-1);
             }
             if (characterInfoButton.wasPressed()) {
-                MinecraftClient.getInstance().setScreen(new ExampleScreen(new ExampleGui()));
+                MinecraftClient.getInstance().setScreen(new LevelinScreen(new CharacterInfoPage()));
             }
         });
     }
