@@ -2,6 +2,8 @@ package com.deanin.levelin.events;
 
 import com.deanin.levelin.Levelin;
 import com.deanin.levelin.player.Levels;
+import com.deanin.levelin.player.Skills;
+import com.deanin.levelin.skills.mining.Mining;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -29,10 +31,10 @@ public class BlockBreakEvents {
     private static final int DIAMOND_EXPERIENCE = 16;
     private static final int NETHERITE_EXPERIENCE = 64;
 
-    private static Levels levels;
+    private Mining mining;
 
-    public BlockBreakEvents() {
-        levels = Levelin.levels;
+    public BlockBreakEvents(Skills skills) {
+        this.mining = skills.getMining();
         previousBrokenBlock = Blocks.AIR;
         PlayerBlockBreakEvents.AFTER.register((world, player, pos, state, blockEntity) -> {
             if (world.isClient) {
@@ -195,7 +197,7 @@ public class BlockBreakEvents {
         if (calculateBlockStreak(brokenBlock)) {
             return true;
         }
-        levels.addExperience(experienceToAward);
+        mining.addExperience(experienceToAward);
         return false;
     }
 

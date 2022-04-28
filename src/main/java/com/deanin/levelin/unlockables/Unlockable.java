@@ -1,5 +1,11 @@
-package com.deanin.levelin.skills;
+package com.deanin.levelin.unlockables;
 
+import com.deanin.levelin.abilities.Ability;
+import com.deanin.levelin.armor.Armor;
+import com.deanin.levelin.attributes.Attribute;
+import com.deanin.levelin.modifiers.Modifier;
+import com.deanin.levelin.requirements.Requirement;
+import com.deanin.levelin.skills.Skill;
 import com.deanin.levelin.tools.Tool;
 import com.deanin.levelin.weapons.Weapon;
 
