@@ -20,7 +20,7 @@ import com.deanin.utils.MathHelpers;
  */
 public abstract class Skill {
     /**
-     * The level of the skill. This value is clamped between 0 and and the level
+     * The level of the skill. This value is clamped between 0 and the level
      * cap.
      */
     private int level;

@@ -11,6 +11,8 @@ public class PlayerCharacter {
     public PlayerCharacter() {
         skills = new Skills();
         attributes = new Attributes(skills);
-        blockBreakEvents = new BlockBreakEvents(skills);
+        blockBreakEvents = new BlockBreakEvents();
+
+        skills.setActiveSkill(skills.getWoodcutting());
     }
 }
