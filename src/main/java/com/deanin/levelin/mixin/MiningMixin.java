@@ -17,6 +17,7 @@ public class MiningMixin {
      */
     @Inject(at = @At("RETURN"), method="calcBlockBreakingDelta", cancellable = true)
     private void injected(CallbackInfoReturnable<Float> cir) {
-        cir.setReturnValue(cir.getReturnValueF() * Levelin.levels.calculatedMiningSpeed());
+        float miningSpeed = Levelin.character.attributes.getMiningSpeed().calculatedMiningSpeed();
+        cir.setReturnValue(cir.getReturnValueF() * miningSpeed);
     }
 }

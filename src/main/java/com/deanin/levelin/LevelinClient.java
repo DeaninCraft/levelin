@@ -2,6 +2,8 @@ package com.deanin.levelin;
 
 import com.deanin.levelin.gui.ExampleGui;
 import com.deanin.levelin.gui.ExampleScreen;
+import com.deanin.levelin.player.PlayerCharacter;
+import com.deanin.levelin.skills.mining.Mining;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
@@ -12,11 +14,13 @@ import org.lwjgl.glfw.GLFW;
 
 public class LevelinClient implements ClientModInitializer {
 
-    // The KeyBinding declaration and registration are commonly executed here statically
+    // The KeyBinding declaration and registration are commonly executed here
+    // statically
     private static KeyBinding levelUpButton;
     private static KeyBinding levelDownButton;
 
     private static KeyBinding characterInfoButton;
+
 
     /**
      * These keybindings are for proof of concept only.
@@ -44,13 +48,13 @@ public class LevelinClient implements ClientModInitializer {
                 "category.levelin.levels" // The translation key of the keybinding's category.
         ));
 
-
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            Mining mining = Levelin.character.skills.getMining();
             if (levelUpButton.wasPressed()) {
-                Levelin.levels.addExperience(1);
+                mining.addExperience(1);
             }
             if (levelDownButton.wasPressed()) {
-                Levelin.levels.addExperience(-1);
+                mining.addExperience(-1);
             }
             if (characterInfoButton.wasPressed()) {
                 MinecraftClient.getInstance().setScreen(new ExampleScreen(new ExampleGui()));

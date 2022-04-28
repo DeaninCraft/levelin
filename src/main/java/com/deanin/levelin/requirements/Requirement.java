@@ -1,4 +1,4 @@
-package com.deanin.levelin.skills;
+package com.deanin.levelin.requirements;
 
 public class Requirement {
 

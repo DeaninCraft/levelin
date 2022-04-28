@@ -1,5 +1,12 @@
 package com.deanin.levelin.skills;
 
+import com.deanin.levelin.abilities.Ability;
+import com.deanin.levelin.attributes.Attribute;
+import com.deanin.levelin.modifiers.Modifier;
+import com.deanin.levelin.requirements.Requirement;
+import com.deanin.levelin.talents.Talent;
+import com.deanin.levelin.unlockables.Unlockable;
+
 /**
  * TalentTree is a class that represents a talent tree. It contains a list of
  * abilities, attributes, modifiers, and requirements. Each talent is purchased

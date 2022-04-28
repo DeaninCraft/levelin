@@ -1,4 +1,11 @@
-package com.deanin.levelin.skills;
+package com.deanin.levelin.talents;
+
+import com.deanin.levelin.abilities.Ability;
+import com.deanin.levelin.attributes.Attribute;
+import com.deanin.levelin.modifiers.Modifier;
+import com.deanin.levelin.requirements.Requirement;
+import com.deanin.levelin.skills.Skill;
+import com.deanin.levelin.unlockables.Unlockable;
 
 /**
  * A talent is a skill that can be purchased with experience

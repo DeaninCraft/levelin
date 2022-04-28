@@ -1,4 +1,8 @@
-package com.deanin.levelin.skills;
+package com.deanin.levelin.abilities;
+
+import com.deanin.levelin.requirements.Requirement;
+import com.deanin.levelin.skills.Skill;
+import com.deanin.levelin.unlockables.Unlockable;
 
 /**
  * The base class for all abilities. An ability is a skill that can be used to

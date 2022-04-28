@@ -1,4 +1,4 @@
-package com.deanin.levelin.skills;
+package com.deanin.levelin.attributes;
 
 import com.mojang.datafixers.types.templates.Tag;
 
