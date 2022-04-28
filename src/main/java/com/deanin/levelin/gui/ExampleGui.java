@@ -1,6 +1,7 @@
 package com.deanin.levelin.gui;
 
 import com.deanin.levelin.Levelin;
+import com.deanin.levelin.Manager;
 import com.deanin.levelin.attributes.mining.MiningSpeed;
 import com.deanin.levelin.player.PlayerCharacter;
 import com.deanin.levelin.skills.mining.Mining;
@@ -11,8 +12,8 @@ public class ExampleGui extends LightweightGuiDescription {
     private MiningSpeed miningSpeed;
     private Mining mining;
     public ExampleGui() {
-        miningSpeed = Levelin.character.attributes.getMiningSpeed();
-        mining = Levelin.character.skills.getMining();
+        miningSpeed = Manager.player.attributes.getMiningSpeed();
+        mining = Manager.player.skills.getMining();
 
         WGridPanel root = new WGridPanel();
         setRootPanel(root);

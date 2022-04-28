@@ -6,10 +6,11 @@ public class PlayerCharacter {
     public PlayerCharacter playerCharacter;
     public Skills skills;
     public Attributes attributes;
+    public BlockBreakEvents blockBreakEvents;
 
     public PlayerCharacter() {
         skills = new Skills();
         attributes = new Attributes(skills);
-        BlockBreakEvents blockBreakEvents = new BlockBreakEvents(skills);
+        blockBreakEvents = new BlockBreakEvents(skills);
     }
 }

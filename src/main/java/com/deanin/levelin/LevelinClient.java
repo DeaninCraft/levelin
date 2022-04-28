@@ -49,7 +49,7 @@ public class LevelinClient implements ClientModInitializer {
         ));
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            Mining mining = Levelin.character.skills.getMining();
+            Mining mining = Manager.player.skills.getMining();
             if (levelUpButton.wasPressed()) {
                 mining.addExperience(1);
             }

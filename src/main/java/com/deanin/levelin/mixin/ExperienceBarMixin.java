@@ -1,6 +1,7 @@
 package com.deanin.levelin.mixin;
 
 import com.deanin.levelin.Levelin;
+import com.deanin.levelin.Manager;
 import com.deanin.levelin.attributes.mining.MiningSpeed;
 import com.deanin.levelin.skills.mining.Mining;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -22,10 +23,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import static net.minecraft.client.gui.DrawableHelper.drawTexture;
 
 @Mixin(InGameHud.class)
-public class ExperienceBarMixin  extends DrawableHelper {
+public class ExperienceBarMixin extends DrawableHelper {
     private static final Identifier EXP_BAR_TEXTURE = new Identifier("levelin", "textures/gui/expbar.png");
-    private static final Identifier EXP_BAR_FILLED_TEXTURE = new Identifier("levelin", "textures/gui/expbar_filled.png");
-    private static final Identifier EXP_BAR_DECORATIONS_TEXTURE = new Identifier("levelin", "textures/gui/expbar_decorations.png");
+    private static final Identifier EXP_BAR_FILLED_TEXTURE = new Identifier("levelin",
+            "textures/gui/expbar_filled.png");
+    private static final Identifier EXP_BAR_DECORATIONS_TEXTURE = new Identifier("levelin",
+            "textures/gui/expbar_decorations.png");
     private static final int EXPERIENCE_BAR_TEXTURE_WIDTH = 420;
     private static final int EXPERIENCE_BAR_TEXTURE_HEIGHT = 69;
     private static final int EXPERIENCE_BAR_FILLED_TEXTURE_WIDTH_OFFSET = 6;
@@ -36,24 +39,24 @@ public class ExperienceBarMixin  extends DrawableHelper {
     private Mining mining;
     private MiningSpeed miningSpeed;
 
-//    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;" +
-//            "setShaderColor(FFFF)V"),
-//            slice =
-//            @Slice(from =
-//            @At(value = "INVOKE",
-//                    target = "Lnet/minecraft/client/gui/hud/PlayerListHud;" +
-//                            "render(Lnet/minecraft/client/util/math/MatrixStack;I" +
-//                            "Lnet/minecraft/scoreboard/Scoreboard;" +
-//                            "Lnet/minecraft/scoreboard/ScoreboardObjective;)V")))
-    @Inject(method="render", at = @At("TAIL"), cancellable = true)
+    @Inject(method = "render", at = @At("TAIL"), cancellable = true)
     public void render(MatrixStack matrixStack, float tickDelta, CallbackInfo callbackInfo) {
-        mining = Levelin.character.skills.getMining();
-        miningSpeed = Levelin.character.attributes.getMiningSpeed();
-        TextRenderer renderer = MinecraftClient.getInstance().textRenderer;
+        TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
         Window window = MinecraftClient.getInstance().getWindow();
-        guiScale = 1.0 / MinecraftClient.getInstance().options.guiScale;
-        scaledExperienceBarWidth = (int)(EXPERIENCE_BAR_TEXTURE_WIDTH * guiScale);
-        scaledExperienceBarHeight = (int)(EXPERIENCE_BAR_TEXTURE_HEIGHT * guiScale);
+//        drawCenteredText(matrixStack,
+//                textRenderer,
+//                "TEST LOL",
+//                50,
+//                50 ,
+//                0xffffff);
+
+        mining = Manager.player.skills.getMining();
+        miningSpeed = Manager.player.attributes.getMiningSpeed();
+//        TextRenderer renderer = MinecraftClient.getInstance().textRenderer;
+//        Window window = MinecraftClient.getInstance().getWindow();
+//        guiScale = 1.0 / MinecraftClient.getInstance().options.guiScale;
+//        scaledExperienceBarWidth = (int) (EXPERIENCE_BAR_TEXTURE_WIDTH * guiScale);
+//        scaledExperienceBarHeight = (int) (EXPERIENCE_BAR_TEXTURE_HEIGHT * guiScale);
 
         String levelText = "Level: " + mining.getLevel();
         String totalExpText = "Total Exp: " + mining.getTotalExperience();
@@ -61,33 +64,32 @@ public class ExperienceBarMixin  extends DrawableHelper {
                 "/" +
                 mining.getExperienceToNextLevel();
         String blockBreakingSpeedText = "Level: " + miningSpeed.calculatedMiningSpeed();
-
-        renderer.draw(matrixStack,levelText, 25, 25, 0xffffff);
-        renderer.draw(matrixStack,totalExpText, 25, 50, 0xffffff);
-        renderer.draw(matrixStack,Experience, 25, 75, 0xffffff);
-        renderer.draw(matrixStack,blockBreakingSpeedText, 25, 100, 0xffffff);
-
+        drawCenteredText(matrixStack, textRenderer, levelText, 25, 25, 0xffffff);
+        drawCenteredText(matrixStack, textRenderer, totalExpText, 25, 50, 0xffffff);
+        drawCenteredText(matrixStack, textRenderer, Experience, 25, 75, 0xffffff);
+        drawCenteredText(matrixStack, textRenderer, blockBreakingSpeedText, 25, 100, 0xffffff);
 
         drawExperienceBar(matrixStack, window);
         drawExperienceBarProgress(matrixStack, window);
         drawExperienceBarDecorations(matrixStack, window);
-
-        drawExperienceBarText(matrixStack, window, renderer);
+        drawExperienceBarText(matrixStack, window, textRenderer);
 
         HudRenderCallback.EVENT.invoker().onHudRender(matrixStack, tickDelta);
     }
 
     public MatrixStack drawExperienceBar(MatrixStack matrixStack, Window window) {
 
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, EXP_BAR_TEXTURE);
+//        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+//        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+//        RenderSystem.setShaderTexture(0, EXP_BAR_TEXTURE);
 
         int windowWidth = window.getScaledWidth();
         int windowHeight = window.getScaledHeight();
 
-        int x = windowWidth - scaledExperienceBarWidth;
-        int y = windowHeight - scaledExperienceBarHeight;
+//        int x = windowWidth - scaledExperienceBarWidth;
+//        int y = windowHeight - scaledExperienceBarHeight;
+        int x = 0;
+        int y = 0;
 
         drawTexture(matrixStack,
                 x,
@@ -102,10 +104,11 @@ public class ExperienceBarMixin  extends DrawableHelper {
                 scaledExperienceBarHeight);
         return matrixStack;
     }
+
     public MatrixStack drawExperienceBarDecorations(MatrixStack matrixStack, Window window) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, EXP_BAR_DECORATIONS_TEXTURE);
+//        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+//        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+//        RenderSystem.setShaderTexture(0, EXP_BAR_DECORATIONS_TEXTURE);
 
         int windowWidth = window.getScaledWidth();
         int windowHeight = window.getScaledHeight();
@@ -126,18 +129,19 @@ public class ExperienceBarMixin  extends DrawableHelper {
                 scaledExperienceBarHeight);
         return matrixStack;
     }
+
     public MatrixStack drawExperienceBarProgress(MatrixStack matrixStack, Window window) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, EXP_BAR_FILLED_TEXTURE);
+//        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+//        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+//        RenderSystem.setShaderTexture(0, EXP_BAR_FILLED_TEXTURE);
 
         float levelProgress = mining.getProgressToNextLevel();
 
         int windowWidth = window.getScaledWidth();
         int windowHeight = window.getScaledHeight();
 
-        double widthOffset = (double)EXPERIENCE_BAR_FILLED_TEXTURE_WIDTH_OFFSET * guiScale;
-        double heightOffset = (double)EXPERIENCE_BAR_FILLED_TEXTURE_HEIGHT_OFFSET * guiScale;
+        double widthOffset = (double) EXPERIENCE_BAR_FILLED_TEXTURE_WIDTH_OFFSET * guiScale;
+        double heightOffset = (double) EXPERIENCE_BAR_FILLED_TEXTURE_HEIGHT_OFFSET * guiScale;
 
         double double_width = (scaledExperienceBarWidth - (EXPERIENCE_BAR_FILLED_TEXTURE_WIDTH_OFFSET)) * levelProgress;
 
@@ -146,10 +150,10 @@ public class ExperienceBarMixin  extends DrawableHelper {
         double double_x = windowWidth - (scaledExperienceBarWidth - widthOffset);
         double double_y = windowHeight - (scaledExperienceBarHeight - heightOffset);
 
-        int x = (int)double_x;
-        int y = (int)double_y;
-        int width = (int)double_width;
-        int height = (int)(scaledExperienceBarHeight - (heightOffset * 2));
+        int x = (int) double_x;
+        int y = (int) double_y;
+        int width = (int) double_width;
+        int height = (int) (scaledExperienceBarHeight - (heightOffset * 2));
 
         // swapped region and texture width
         drawTexture(matrixStack,
@@ -163,7 +167,6 @@ public class ExperienceBarMixin  extends DrawableHelper {
                 height,
                 scaledExperienceBarWidth,
                 height);
-
 
         return matrixStack;
     }
