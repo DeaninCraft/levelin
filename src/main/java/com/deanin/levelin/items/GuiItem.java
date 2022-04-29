@@ -17,10 +17,10 @@ public class GuiItem extends Item {
 
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
-        if (MinecraftClient.getInstance().equals(null)) {
-            return super.use(world, player, hand);
-        }
-        MinecraftClient.getInstance().setScreen(new LevelinScreen(new CharacterInfoPage()));
+//        if (MinecraftClient.getInstance().equals(null)) {
+//            return super.use(world, player, hand);
+//        }
+//        MinecraftClient.getInstance().setScreen(new LevelinScreen(new CharacterInfoPage()));
 
         return super.use(world, player, hand);
     }

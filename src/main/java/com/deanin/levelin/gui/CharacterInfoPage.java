@@ -6,10 +6,12 @@ import com.deanin.levelin.skills.mining.Mining;
 import io.github.cottonmc.cotton.gui.client.LightweightGuiDescription;
 import io.github.cottonmc.cotton.gui.widget.WDynamicLabel;
 import io.github.cottonmc.cotton.gui.widget.WGridPanel;
+import net.minecraft.client.MinecraftClient;
+
 public class CharacterInfoPage extends LightweightGuiDescription {
     private MiningSpeed miningSpeed;
     private Mining mining;
-    public CharacterInfoPage() {
+    public CharacterInfoPage(MinecraftClient client) {
         miningSpeed = Manager.player.attributes.getMiningSpeed();
         mining = Manager.player.skills.getMining();
 
