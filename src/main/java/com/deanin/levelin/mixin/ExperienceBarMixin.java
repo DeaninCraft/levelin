@@ -148,8 +148,6 @@ public class ExperienceBarMixin extends DrawableHelper {
 
         double double_width = (scaledExperienceBarWidth - (EXPERIENCE_BAR_FILLED_TEXTURE_WIDTH_OFFSET)) * levelProgress;
 
-        Levelin.LOGGER.info("LEVEL PROGRESS: " + levelProgress);
-
         double double_x = windowWidth - (scaledExperienceBarWidth - widthOffset);
         double double_y = windowHeight - (scaledExperienceBarHeight - heightOffset);
 
