@@ -14,6 +14,8 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.gui.screen.LevelLoadingScreen;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.state.property.IntProperty;
+import net.minecraft.state.property.Property;
 import net.minecraft.tag.BlockTags;
 import net.minecraft.tag.TagKey;
 import net.minecraft.util.math.BlockPos;
@@ -96,8 +98,8 @@ public class BlockBreakEvents {
 
     private boolean manageFarming(BlockState state, Block brokenBlock) {
         if (ConfigRegister.FARM_CONFIG.harvestCropXp.containsKey(StringHelpers.getBlockName(brokenBlock))) {
-            Levelin.LOGGER.info("Block age: " + StringHelpers.getBlockStateAge(state));
-            if (handleFarmExperience(brokenBlock, ConfigRegister.FARM_CONFIG.harvestCropXp.get(StringHelpers.getBlockName(brokenBlock)) * StringHelpers.getBlockStateAge(state))) {
+            Levelin.LOGGER.info("Block age: " + Farming.getCropAge(state));
+            if (handleFarmExperience(brokenBlock, ConfigRegister.FARM_CONFIG.harvestCropXp.get(StringHelpers.getBlockName(brokenBlock)) * Farming.getCropAge(state))) {
                 return true;
             }
         }

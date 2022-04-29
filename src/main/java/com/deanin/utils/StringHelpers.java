@@ -12,12 +12,4 @@ public class StringHelpers {
     public static String getBlockName(Block badBlockName) {
         return StringUtils.substringBetween(badBlockName.toString(),"{", "}");
     }
-    public static int getBlockStateAge(BlockState blockState) {
-        Pattern ageRegex = Pattern.compile("age=\\d");
-        Matcher matcher = ageRegex.matcher(blockState.toString());
-        if(matcher.find()) {
-            return Integer.parseInt(String.valueOf(matcher.group().charAt(matcher.group().length() - 1)));
-        }
-        return 0;
-    }
 }
