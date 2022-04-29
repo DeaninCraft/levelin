@@ -13,6 +13,8 @@ import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.tag.BlockTags;
+import net.minecraft.tag.TagKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -29,7 +31,7 @@ public class BlockBreakEvents {
         this.mining = skills.getMining();
         this.farming = skills.getFarming();
         this.woodcutting = skills.getWoodcutting();
-      
+
         previousBrokenBlock = Blocks.AIR;
         PlayerBlockBreakEvents.AFTER.register((world, player, pos, state, blockEntity) -> {
             if (world.isClient) {
@@ -57,15 +59,28 @@ public class BlockBreakEvents {
 
     private boolean manageFarming(World world, BlockPos pos, BlockState state, Block brokenBlock) {
         if (ConfigRegister.FARM_CONFIG.harvestCropXp.containsKey(StringHelpers.getBlockName(brokenBlock))) {
-            if(handleSkillExperience(brokenBlock, ConfigRegister.FARM_CONFIG.harvestCropXp.get(StringHelpers.getBlockName(brokenBlock)) * Farming.getCropAge(state), farming)) {
+            if (handleSkillExperience(brokenBlock,
+                    ConfigRegister.FARM_CONFIG.harvestCropXp.get(StringHelpers.getBlockName(brokenBlock))
+                            * Farming.getCropAge(state),
+                    farming)) {
                 return true;
             }
         }
         if (ConfigRegister.FARM_CONFIG.harvestMelonXp.containsKey(StringHelpers.getBlockName(brokenBlock))) {
-            if(Farming.hasAttachedStem(world, pos, brokenBlock, state)) {
-                if (handleMelonExperience(brokenBlock, ConfigRegister.FARM_CONFIG.harvestMelonXp.get(StringHelpers.getBlockName(brokenBlock)))) {
+            if (Farming.hasAttachedStem(world, brokenBlock, pos)) {
+                if (handleSkillExperience(brokenBlock,
+                        ConfigRegister.FARM_CONFIG.harvestMelonXp.get(StringHelpers.getBlockName(brokenBlock)),
+                        farming)) {
                     return true;
                 }
+            }
+        }
+        if (ConfigRegister.FARM_CONFIG.harvestStalkXp.containsKey(StringHelpers.getBlockName(brokenBlock))) {
+            if (handleSkillExperience(brokenBlock,
+                    ConfigRegister.FARM_CONFIG.harvestStalkXp.get(StringHelpers.getBlockName(brokenBlock))
+                            * Farming.getAttachedStalks(world, brokenBlock, state, pos),
+                    farming)) {
+                return true;
             }
         }
         return false;
@@ -73,7 +88,8 @@ public class BlockBreakEvents {
 
     private boolean manageMining(World world, BlockPos pos, BlockState state, Block brokenBlock) {
         if (ConfigRegister.MINING_CONFIG.miningBlockXP.containsKey(StringHelpers.getBlockName(brokenBlock))) {
-            if (handleSkillExperience(brokenBlock, ConfigRegister.MINING_CONFIG.miningBlockXP.get(StringHelpers.getBlockName(brokenBlock)), mining)) {
+            if (handleSkillExperience(brokenBlock,
+                    ConfigRegister.MINING_CONFIG.miningBlockXP.get(StringHelpers.getBlockName(brokenBlock)), mining)) {
                 return true;
             }
         }
@@ -82,7 +98,9 @@ public class BlockBreakEvents {
 
     private boolean manageWoodcutting(World world, BlockPos pos, BlockState state, Block brokenBlock) {
         if (ConfigRegister.WOODCUTTING_CONFIG.woodcuttingBlockXP.containsKey(StringHelpers.getBlockName(brokenBlock))) {
-            if (handleSkillExperience(brokenBlock, ConfigRegister.WOODCUTTING_CONFIG.woodcuttingBlockXP.get(StringHelpers.getBlockName(brokenBlock)), woodcutting)) {
+            if (handleSkillExperience(brokenBlock,
+                    ConfigRegister.WOODCUTTING_CONFIG.woodcuttingBlockXP.get(StringHelpers.getBlockName(brokenBlock)),
+                    woodcutting)) {
                 return true;
             }
         }
@@ -90,16 +108,18 @@ public class BlockBreakEvents {
     }
 
     private boolean handleMelonExperience(Block brokenBlock,
-                                         int experienceToAward) {
+            int experienceToAward) {
         if (calculateBlockStreak(brokenBlock)) {
             return true;
         }
         farming.addExperience(experienceToAward);
         return false;
     }
+
     private boolean handleSkillExperience(Block brokenBlock,
-                                          int experienceToAward,
-                                         Skill skillToAwardXP) {
+            int experienceToAward,
+            Skill skillToAwardXP) {
+
         if (calculateBlockStreak(brokenBlock)) {
             return true;
         }
