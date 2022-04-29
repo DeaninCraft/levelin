@@ -1,14 +1,17 @@
 package com.deanin.levelin.player;
 
 import com.deanin.levelin.skills.Skill;
+import com.deanin.levelin.skills.farming.Farming;
 import com.deanin.levelin.skills.mining.Mining;
 import com.deanin.levelin.skills.woodcutting.Woodcutting;
 
 public class Skills {
     private Skill[] skills;
     private Mining mining;
+    private Farming farming;
     private Woodcutting woodcutting;
     private Skill activeSkill;
+
 
     public Skill[] getSkills() {
         return skills;
@@ -20,9 +23,16 @@ public class Skills {
     public Mining getMining() {
         return mining;
     }
+
+    public Farming getFarming(){
+        return farming;
+    }
+
     public void setMining(Mining mining) {
         this.mining = mining;
     }
+    public void setFarming(Farming farming) { this.farming = farming; }
+
     public Woodcutting getWoodcutting() {
         return woodcutting;
     }
@@ -38,5 +48,6 @@ public class Skills {
     public Skills() {
         mining = new Mining();
         woodcutting = new Woodcutting();
+        farming = new Farming();
     }
 }
