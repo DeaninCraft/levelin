@@ -105,7 +105,7 @@ public class BlockBreakEvents {
                 }
             }
         }if (ConfigRegister.FARM_CONFIG.harvestStalkXp.containsKey(StringHelpers.getBlockName(brokenBlock))) {
-            if (handleFarmExperience(brokenBlock, ConfigRegister.FARM_CONFIG.harvestStalkXp.get(StringHelpers.getBlockName(brokenBlock)) * 2)) {
+            if (handleFarmExperience(brokenBlock, ConfigRegister.FARM_CONFIG.harvestStalkXp.get(StringHelpers.getBlockName(brokenBlock)) * Farming.getAttachedStalks(world, brokenBlock, state, pos))) {
                 return true;
             }
         }

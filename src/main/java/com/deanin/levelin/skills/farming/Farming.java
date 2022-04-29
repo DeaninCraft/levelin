@@ -37,7 +37,6 @@ public class Farming extends Skill {
         BlockPos[] directions = {pos.north(1), pos.east(1), pos.south(1), pos.west(1)};
         for (BlockPos dir : directions) {
             if(isAttachedStem(world.getBlockState(dir), gourd)) return true;
-
         }
         return false;
     }
@@ -47,8 +46,24 @@ public class Farming extends Skill {
         return false;
     }
 
-    public static int getAttachedStalks(World world, BlockPos pos) {
-        int count = 1;
+    public static int getAttachedStalks(World world, Block brokenBlock, BlockState state, BlockPos pos) {
+        int count = getAboveStalks(world, brokenBlock, pos);
+
+        if(count == 0 && !brokenBlock.toString().contains(StringHelpers.getBlockName(world.getBlockState(pos.down((1))).getBlock())) && getCropAge(state) == 0) {
+            return 0;
+        }
+        return count + 1;
+    }
+    public static int getAboveStalks(World world, Block block, BlockPos pos) {
+        int count = 0;
+        boolean hasAbove = true;
+        while(hasAbove) {
+            if (block.toString().contains(StringHelpers.getBlockName(world.getBlockState(pos.up((count + 1))).getBlock()))) {
+                count++;
+            }
+            else hasAbove=false;
+        }
+        Levelin.LOGGER.info("Above stalks: " + count);
         return count;
     }
 
