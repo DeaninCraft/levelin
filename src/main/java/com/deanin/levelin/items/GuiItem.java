@@ -1,7 +1,7 @@
 package com.deanin.levelin.items;
 
-import com.deanin.levelin.gui.ExampleGui;
-import com.deanin.levelin.gui.ExampleScreen;
+import com.deanin.levelin.gui.CharacterInfoPage;
+import com.deanin.levelin.gui.LevelinScreen;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -17,10 +17,10 @@ public class GuiItem extends Item {
 
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
-        if (MinecraftClient.getInstance().equals(null)) {
-            return super.use(world, player, hand);
-        }
-        MinecraftClient.getInstance().setScreen(new ExampleScreen(new ExampleGui()));
+//        if (MinecraftClient.getInstance().equals(null)) {
+//            return super.use(world, player, hand);
+//        }
+//        MinecraftClient.getInstance().setScreen(new LevelinScreen(new CharacterInfoPage()));
 
         return super.use(world, player, hand);
     }

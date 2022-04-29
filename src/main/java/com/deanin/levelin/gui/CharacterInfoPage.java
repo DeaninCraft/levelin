@@ -1,17 +1,17 @@
 package com.deanin.levelin.gui;
 
-import com.deanin.levelin.Levelin;
 import com.deanin.levelin.Manager;
 import com.deanin.levelin.attributes.mining.MiningSpeed;
-import com.deanin.levelin.player.PlayerCharacter;
 import com.deanin.levelin.skills.mining.Mining;
 import io.github.cottonmc.cotton.gui.client.LightweightGuiDescription;
 import io.github.cottonmc.cotton.gui.widget.WDynamicLabel;
 import io.github.cottonmc.cotton.gui.widget.WGridPanel;
-public class ExampleGui extends LightweightGuiDescription {
+import net.minecraft.client.MinecraftClient;
+
+public class CharacterInfoPage extends LightweightGuiDescription {
     private MiningSpeed miningSpeed;
     private Mining mining;
-    public ExampleGui() {
+    public CharacterInfoPage(MinecraftClient client) {
         miningSpeed = Manager.player.attributes.getMiningSpeed();
         mining = Manager.player.skills.getMining();
 

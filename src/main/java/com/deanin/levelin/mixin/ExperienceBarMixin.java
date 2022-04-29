@@ -13,6 +13,7 @@ import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.Window;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -38,6 +39,7 @@ public class ExperienceBarMixin extends DrawableHelper {
     private int scaledExperienceBarHeight;
     private Mining mining;
     private MiningSpeed miningSpeed;
+    private static final int WHITE = 0xffffff;
 
     @Inject(method = "render", at = @At("TAIL"), cancellable = true)
     public void render(MatrixStack matrixStack, float tickDelta, CallbackInfo callbackInfo) {
@@ -64,10 +66,11 @@ public class ExperienceBarMixin extends DrawableHelper {
                 "/" +
                 mining.getExperienceToNextLevel();
         String blockBreakingSpeedText = "Level: " + miningSpeed.calculatedMiningSpeed();
-        drawCenteredText(matrixStack, textRenderer, levelText, 25, 25, 0xffffff);
-        drawCenteredText(matrixStack, textRenderer, totalExpText, 25, 50, 0xffffff);
-        drawCenteredText(matrixStack, textRenderer, Experience, 25, 75, 0xffffff);
-        drawCenteredText(matrixStack, textRenderer, blockBreakingSpeedText, 25, 100, 0xffffff);
+
+        drawTextWithShadow(matrixStack, textRenderer, Text.of(levelText), 25, 25, WHITE);
+        drawTextWithShadow(matrixStack, textRenderer, Text.of(totalExpText), 25, 50, WHITE);
+        drawTextWithShadow(matrixStack, textRenderer, Text.of(Experience), 25, 75, WHITE);
+        drawTextWithShadow(matrixStack, textRenderer, Text.of(blockBreakingSpeedText), 25, 100, WHITE);
 
         drawExperienceBar(matrixStack, window);
         drawExperienceBarProgress(matrixStack, window);
@@ -144,8 +147,6 @@ public class ExperienceBarMixin extends DrawableHelper {
         double heightOffset = (double) EXPERIENCE_BAR_FILLED_TEXTURE_HEIGHT_OFFSET * guiScale;
 
         double double_width = (scaledExperienceBarWidth - (EXPERIENCE_BAR_FILLED_TEXTURE_WIDTH_OFFSET)) * levelProgress;
-
-        Levelin.LOGGER.info("LEVEL PROGRESS: " + levelProgress);
 
         double double_x = windowWidth - (scaledExperienceBarWidth - widthOffset);
         double double_y = windowHeight - (scaledExperienceBarHeight - heightOffset);
