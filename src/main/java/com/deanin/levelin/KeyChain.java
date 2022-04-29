@@ -5,8 +5,6 @@ import com.deanin.levelin.gui.LevelinScreen;
 import com.deanin.levelin.skills.mining.Mining;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
@@ -14,7 +12,6 @@ import org.lwjgl.glfw.GLFW;
 public class KeyChain {
     private static KeyBinding levelUpButton;
     private static KeyBinding levelDownButton;
-
     public static KeyBinding characterInfoButton;
     public static boolean characterInfoIsOpen;
     public static void init() {

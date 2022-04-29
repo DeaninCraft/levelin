@@ -3,8 +3,6 @@ package com.deanin.levelin.player;
 import com.deanin.levelin.attributes.Attribute;
 import com.deanin.levelin.attributes.mining.MiningSpeed;
 import com.deanin.levelin.attributes.woodcutting.WoodcuttingSpeed;
-import com.deanin.levelin.skills.Skill;
-import com.deanin.levelin.skills.mining.Mining;
 
 public class Attributes {
     private Attribute[] attributes;
@@ -14,11 +12,9 @@ public class Attributes {
     public Attribute[] getAttributes() {
         return attributes;
     }
-
     public void setAttributes(Attribute[] attributes) {
         this.attributes = attributes;
     }
-
     public MiningSpeed getMiningSpeed() {
         return miningSpeed;
     }
@@ -28,19 +24,24 @@ public class Attributes {
     public WoodcuttingSpeed getWoodcuttingSpeed() {
         return woodcuttingSpeed;
     }
-
     public void setWoodcuttingSpeed(WoodcuttingSpeed woodcuttingSpeed) {
         this.woodcuttingSpeed = woodcuttingSpeed;
     }
     public Skills getSkills() {
         return skills;
     }
-
     public void setSkills(Skills skills) {
         this.skills = skills;
     }
     public Attributes(Skills skills) {
+        this.skills = skills;
         miningSpeed = new MiningSpeed();
         woodcuttingSpeed = new WoodcuttingSpeed();
+        initializeSkillAttributes();
     }
+    public void initializeSkillAttributes() {
+        skills.getMining().setPrimaryAttribute(miningSpeed);
+        skills.getWoodcutting().setPrimaryAttribute(woodcuttingSpeed);
+    }
+
 }

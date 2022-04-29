@@ -25,17 +25,18 @@ public class Farming extends Skill {
 
     public static int getCropAge(BlockState state) {
         Property AGE = null;
-        for (Property property:state.getProperties()) {
-            if(property.getName() == "age") AGE = property;
+        for (Property property : state.getProperties()) {
+            if (property.getName() == "age")
+                AGE = property;
         }
         return Integer.parseInt(state.get(AGE).toString());
     }
 
     public static boolean hasAttachedStem(World world, BlockPos pos, Block block, BlockState state) {
         Levelin.LOGGER.info("This is a gourd!");
-        if(isAttachedStem(world.getBlockState(pos.east(1)))||
-                isAttachedStem(world.getBlockState(pos.west(1)))||
-                isAttachedStem(world.getBlockState(pos.north(1)))||
+        if (isAttachedStem(world.getBlockState(pos.east(1))) ||
+                isAttachedStem(world.getBlockState(pos.west(1))) ||
+                isAttachedStem(world.getBlockState(pos.north(1))) ||
                 isAttachedStem(world.getBlockState(pos.south(1)))) {
             Levelin.LOGGER.info("It has a stem!");
             return true;
@@ -49,7 +50,8 @@ public class Farming extends Skill {
 
     public static boolean isAttachedStem(BlockState state) {
         Levelin.LOGGER.info(state.toString());
-        if(state.toString() == "Block{minecraft:pumpkin_stem}[age=7]"|| state.toString() =="Block{minecraft:melon_stem}[age=7]") {
+        if (state.toString() == "Block{minecraft:pumpkin_stem}[age=7]"
+                || state.toString() == "Block{minecraft:melon_stem}[age=7]") {
             Levelin.LOGGER.info("There is a stem near!");
             return true;
         }

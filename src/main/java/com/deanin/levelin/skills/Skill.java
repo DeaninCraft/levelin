@@ -1,5 +1,6 @@
 package com.deanin.levelin.skills;
 
+import com.deanin.levelin.attributes.Attribute;
 import com.deanin.utils.MathHelpers;
 
 /**
@@ -28,7 +29,7 @@ public abstract class Skill {
     private int experienceToNextLevel = 0;
     private int totalExperience = 0;
     private int minLevel = 1;
-
+    private Attribute primaryAttribute;
     /**
      * The name of the skill. This is displayed in the GUI.
      */
@@ -103,6 +104,12 @@ public abstract class Skill {
 
     public void setTalentTree(TalentTree talentTree) {
         this.talentTree = talentTree;
+    }
+    public Attribute getPrimaryAttribute() {
+        return primaryAttribute;
+    }
+    public void setPrimaryAttribute(Attribute primaryAttribute) {
+        this.primaryAttribute = primaryAttribute;
     }
 
     /**

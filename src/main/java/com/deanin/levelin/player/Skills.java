@@ -49,5 +49,11 @@ public class Skills {
         mining = new Mining();
         woodcutting = new Woodcutting();
         farming = new Farming();
+
+        setSkills(new Skill[] {
+                farming,
+                mining,
+                woodcutting
+        });
     }
 }

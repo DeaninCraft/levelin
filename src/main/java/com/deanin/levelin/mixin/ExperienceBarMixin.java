@@ -1,16 +1,16 @@
 package com.deanin.levelin.mixin;
 
-import com.deanin.levelin.Levelin;
 import com.deanin.levelin.Manager;
+import com.deanin.levelin.attributes.Attribute;
 import com.deanin.levelin.attributes.mining.MiningSpeed;
+import com.deanin.levelin.skills.Skill;
 import com.deanin.levelin.skills.mining.Mining;
-import com.mojang.blaze3d.systems.RenderSystem;
+import io.github.cottonmc.cotton.gui.widget.WDynamicLabel;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.hud.InGameHud;
-import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.Window;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
@@ -18,7 +18,6 @@ import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Slice;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import static net.minecraft.client.gui.DrawableHelper.drawTexture;
@@ -37,8 +36,8 @@ public class ExperienceBarMixin extends DrawableHelper {
     private double guiScale;
     private int scaledExperienceBarWidth;
     private int scaledExperienceBarHeight;
-    private Mining mining;
-    private MiningSpeed miningSpeed;
+    private Skill activeSkill;
+    private Attribute breakingSpeed;
     private static final int WHITE = 0xffffff;
 
     @Inject(method = "render", at = @At("TAIL"), cancellable = true)
@@ -52,25 +51,27 @@ public class ExperienceBarMixin extends DrawableHelper {
 //                50 ,
 //                0xffffff);
 
-        mining = Manager.player.skills.getMining();
-        miningSpeed = Manager.player.attributes.getMiningSpeed();
+        activeSkill = Manager.player.skills.getActiveSkill();
+        breakingSpeed = activeSkill.getPrimaryAttribute();
 //        TextRenderer renderer = MinecraftClient.getInstance().textRenderer;
 //        Window window = MinecraftClient.getInstance().getWindow();
 //        guiScale = 1.0 / MinecraftClient.getInstance().options.guiScale;
 //        scaledExperienceBarWidth = (int) (EXPERIENCE_BAR_TEXTURE_WIDTH * guiScale);
 //        scaledExperienceBarHeight = (int) (EXPERIENCE_BAR_TEXTURE_HEIGHT * guiScale);
 
-        String levelText = "Level: " + mining.getLevel();
-        String totalExpText = "Total Exp: " + mining.getTotalExperience();
-        String Experience = "To Next Level: " + mining.getCurrentExperience() +
+        String activeSkillText = "Active Skill: " + activeSkill.getName();
+        String levelText = "Level: " + activeSkill.getLevel();
+        String totalExpText = "Total Exp: " + activeSkill.getTotalExperience();
+        String Experience = "To Next Level: " + activeSkill.getCurrentExperience() +
                 "/" +
-                mining.getExperienceToNextLevel();
-        String blockBreakingSpeedText = "Level: " + miningSpeed.calculatedMiningSpeed();
+                activeSkill.getExperienceToNextLevel();
+        String blockBreakingSpeedText = "Level: " + breakingSpeed.calculatedBreakingSpeed();
 
-        drawTextWithShadow(matrixStack, textRenderer, Text.of(levelText), 25, 25, WHITE);
-        drawTextWithShadow(matrixStack, textRenderer, Text.of(totalExpText), 25, 50, WHITE);
-        drawTextWithShadow(matrixStack, textRenderer, Text.of(Experience), 25, 75, WHITE);
-        drawTextWithShadow(matrixStack, textRenderer, Text.of(blockBreakingSpeedText), 25, 100, WHITE);
+        drawTextWithShadow(matrixStack, textRenderer, Text.of(activeSkillText), 25, 25, WHITE);
+        drawTextWithShadow(matrixStack, textRenderer, Text.of(levelText), 25, 50, WHITE);
+        drawTextWithShadow(matrixStack, textRenderer, Text.of(totalExpText), 25, 75, WHITE);
+        drawTextWithShadow(matrixStack, textRenderer, Text.of(Experience), 25, 100, WHITE);
+        drawTextWithShadow(matrixStack, textRenderer, Text.of(blockBreakingSpeedText), 25, 125, WHITE);
 
         drawExperienceBar(matrixStack, window);
         drawExperienceBarProgress(matrixStack, window);
@@ -138,7 +139,7 @@ public class ExperienceBarMixin extends DrawableHelper {
 //        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 //        RenderSystem.setShaderTexture(0, EXP_BAR_FILLED_TEXTURE);
 
-        float levelProgress = mining.getProgressToNextLevel();
+        float levelProgress = activeSkill.getProgressToNextLevel();
 
         int windowWidth = window.getScaledWidth();
         int windowHeight = window.getScaledHeight();
@@ -173,12 +174,12 @@ public class ExperienceBarMixin extends DrawableHelper {
     }
 
     public void drawExperienceBarText(MatrixStack matrixStack, Window window, TextRenderer renderer) {
-        String experienceText = mining.getCurrentExperience() + " / " + mining.getExperienceToNextLevel();
+        String experienceText = activeSkill.getCurrentExperience() + " / " + activeSkill.getExperienceToNextLevel();
         int width = scaledExperienceBarWidth / 2;
         int height = scaledExperienceBarHeight / 2;
         int windowWidth = window.getScaledWidth();
         int windowHeight = window.getScaledHeight();
-        int x = windowWidth - width - (10 + 4 * calculateDigits(mining.getCurrentExperience()));
+        int x = windowWidth - width - (10 + 4 * calculateDigits(activeSkill.getCurrentExperience()));
         int y = windowHeight - height;
 
         renderer.draw(matrixStack, experienceText, x, y, 0xffffff);
