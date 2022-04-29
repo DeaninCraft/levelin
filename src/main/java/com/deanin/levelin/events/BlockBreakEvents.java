@@ -107,15 +107,6 @@ public class BlockBreakEvents {
         return false;
     }
 
-    private boolean handleMelonExperience(Block brokenBlock,
-            int experienceToAward) {
-        if (calculateBlockStreak(brokenBlock)) {
-            return true;
-        }
-        farming.addExperience(experienceToAward);
-        return false;
-    }
-
     private boolean handleSkillExperience(Block brokenBlock,
             int experienceToAward,
             Skill skillToAwardXP) {
