@@ -9,6 +9,7 @@ import com.mojang.datafixers.types.templates.Tag;
  * @author Dean DeHart
  */
 public class Attribute {
+
     /**
      * The name of the attribute.
      */
@@ -41,5 +42,56 @@ public class Attribute {
      * attribute's value.
      */
     private Tag[] affectedWeapons;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
+    }
+
+    public int getMaxValue() {
+        return maxValue;
+    }
+
+    public void setMaxValue(int maxValue) {
+        this.maxValue = maxValue;
+    }
+
+    public int getMinValue() {
+        return minValue;
+    }
+
+    public void setMinValue(int minValue) {
+        this.minValue = minValue;
+    }
+
+    public Tag[] getAffectedTools() {
+        return affectedTools;
+    }
+
+    public void setAffectedTools(Tag[] affectedTools) {
+        this.affectedTools = affectedTools;
+    }
+
+    public Tag[] getAffectedWeapons() {
+        return affectedWeapons;
+    }
+
+    public void setAffectedWeapons(Tag[] affectedWeapons) {
+        this.affectedWeapons = affectedWeapons;
+    }
+    public float calculatedBreakingSpeed() {
+        return 1.0f;
+    }
+
 
 }

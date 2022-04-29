@@ -1,13 +1,10 @@
 package com.deanin.levelin.gui;
 
 import com.deanin.levelin.KeyChain;
-import com.deanin.levelin.Levelin;
-import com.deanin.levelin.LevelinClient;
 import io.github.cottonmc.cotton.gui.GuiDescription;
 import io.github.cottonmc.cotton.gui.client.CottonClientScreen;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
 
 @Environment(EnvType.CLIENT)
 public class LevelinScreen extends CottonClientScreen {
