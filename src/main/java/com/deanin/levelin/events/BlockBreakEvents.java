@@ -14,6 +14,8 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.tag.BlockTags;
 import net.minecraft.tag.TagKey;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class BlockBreakEvents {
     private Block previousBrokenBlock;
@@ -97,10 +99,14 @@ public class BlockBreakEvents {
             }
         }
         if (ConfigRegister.FARM_CONFIG.harvestMelonXp.containsKey(StringHelpers.getBlockName(brokenBlock))) {
-            if(Farming.hasAttachedStem(world, pos, brokenBlock, state)) {
-                if (handleMelonExperience(brokenBlock, ConfigRegister.FARM_CONFIG.harvestMelonXp.get(StringHelpers.getBlockName(brokenBlock)))) {
+            if(Farming.hasAttachedStem(world, brokenBlock, pos)) {
+                if (handleFarmExperience(brokenBlock, ConfigRegister.FARM_CONFIG.harvestMelonXp.get(StringHelpers.getBlockName(brokenBlock)))) {
                     return true;
                 }
+            }
+        }if (ConfigRegister.FARM_CONFIG.harvestStalkXp.containsKey(StringHelpers.getBlockName(brokenBlock))) {
+            if (handleFarmExperience(brokenBlock, ConfigRegister.FARM_CONFIG.harvestStalkXp.get(StringHelpers.getBlockName(brokenBlock)) * Farming.getAttachedStalks(world, brokenBlock, state, pos))) {
+                return true;
             }
         }
         return false;
@@ -200,14 +206,6 @@ public class BlockBreakEvents {
             return true;
         }
         targetSkill.addExperience(experienceToAward);
-        return false;
-    }
-    private boolean handleMelonExperience(Block brokenBlock,
-                                         int experienceToAward) {
-        if (calculateBlockStreak(brokenBlock)) {
-            return true;
-        }
-        farming.addExperience(experienceToAward);
         return false;
     }
     private boolean handleFarmExperience(Block brokenBlock,
