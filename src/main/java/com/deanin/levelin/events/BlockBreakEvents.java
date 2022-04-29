@@ -1,19 +1,24 @@
 package com.deanin.levelin.events;
 
 import com.deanin.levelin.Levelin;
+import com.deanin.levelin.config.ConfigRegister;
 import com.deanin.levelin.player.Levels;
 import com.deanin.levelin.player.Skills;
+import com.deanin.levelin.skills.farming.Farming;
 import com.deanin.levelin.skills.mining.Mining;
+import com.deanin.utils.StringHelpers;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.client.gui.screen.LevelLoadingScreen;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tag.BlockTags;
 import net.minecraft.tag.TagKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import org.apache.commons.lang3.StringUtils;
 
 public class BlockBreakEvents {
     private Block previousBrokenBlock;
@@ -32,20 +37,26 @@ public class BlockBreakEvents {
     private static final int NETHERITE_EXPERIENCE = 64;
 
     private Mining mining;
+    private Farming farming;
 
     public BlockBreakEvents(Skills skills) {
         this.mining = skills.getMining();
+        this.farming = skills.getFarming();
         previousBrokenBlock = Blocks.AIR;
         PlayerBlockBreakEvents.AFTER.register((world, player, pos, state, blockEntity) -> {
             if (world.isClient) {
                 return;
             }
+            Levelin.LOGGER.info(state.toString());
             experienceManager(state);
         });
     }
 
     public void experienceManager(BlockState state) {
         Block brokenBlock = state.getBlock();
+        if (manageFarming(state, brokenBlock)) {
+            return;
+        }
         if (manageReplaceablePlants(state, brokenBlock)) {
             return;
         }
@@ -81,6 +92,16 @@ public class BlockBreakEvents {
         }
 
         previousBrokenBlock = brokenBlock;
+    }
+
+    private boolean manageFarming(BlockState state, Block brokenBlock) {
+        if (ConfigRegister.FARM_CONFIG.harvestCropXp.containsKey(StringHelpers.getBlockName(brokenBlock))) {
+            Levelin.LOGGER.info("Block age: " + StringHelpers.getBlockStateAge(state));
+            if (handleFarmExperience(brokenBlock, ConfigRegister.FARM_CONFIG.harvestCropXp.get(StringHelpers.getBlockName(brokenBlock)) * StringHelpers.getBlockStateAge(state))) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private boolean manageCoalExperience(BlockState state, Block brokenBlock) {
@@ -198,6 +219,15 @@ public class BlockBreakEvents {
             return true;
         }
         mining.addExperience(experienceToAward);
+        return false;
+    }
+
+    private boolean handleFarmExperience(Block brokenBlock,
+                                          int experienceToAward) {
+        if (calculateBlockStreak(brokenBlock)) {
+            return true;
+        }
+        farming.addExperience(experienceToAward);
         return false;
     }
 
