@@ -13,8 +13,6 @@ import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.tag.BlockTags;
-import net.minecraft.tag.TagKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -53,7 +51,6 @@ public class BlockBreakEvents {
         if (manageWoodcutting(world, pos, state, brokenBlock)) {
             return;
         }
-
         previousBrokenBlock = brokenBlock;
     }
 
@@ -110,7 +107,6 @@ public class BlockBreakEvents {
     private boolean handleSkillExperience(Block brokenBlock,
             int experienceToAward,
             Skill skillToAwardXP) {
-
         if (calculateBlockStreak(brokenBlock)) {
             return true;
         }
@@ -119,7 +115,6 @@ public class BlockBreakEvents {
     }
 
     private boolean calculateBlockStreak(Block brokenBlock) {
-
         if (brokenBlock.equals(previousBrokenBlock)) {
             blockBreakStreak++;
             int blockStreakLimit = 25;

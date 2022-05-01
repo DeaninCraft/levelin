@@ -27,7 +27,6 @@ public abstract class MiningMixin {
     @Inject(at = @At("RETURN"),
             method="calcBlockBreakingDelta", cancellable = true)
     private void injected(BlockState state, PlayerEntity player, BlockView world, BlockPos pos, CallbackInfoReturnable<Float> cir) {
-        Levelin.LOGGER.warn("ENTERING CALC!");
         float breakingSpeed = 1.0f;
         Block block = state.getBlock();
         String blockName = StringHelpers.getBlockName(block);

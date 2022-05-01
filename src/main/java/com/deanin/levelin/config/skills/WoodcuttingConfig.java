@@ -21,7 +21,6 @@ public class WoodcuttingConfig implements ConfigData {
             Map.entry("minecraft:spruce_log", 15),
             Map.entry("minecraft:acacia_log", 30),
             Map.entry("minecraft:dark_oak_log", 45),
-
             Map.entry("minecraft:jungle_log", 60),
             Map.entry("minecraft:birch_log", 75));
 
@@ -32,7 +31,6 @@ public class WoodcuttingConfig implements ConfigData {
             Map.entry("minecraft:spruce_log", 15),
             Map.entry("minecraft:acacia_log", 30),
             Map.entry("minecraft:dark_oak_log", 45),
-
             Map.entry("minecraft:jungle_log", 60),
             Map.entry("minecraft:birch_log", 75));
 }
