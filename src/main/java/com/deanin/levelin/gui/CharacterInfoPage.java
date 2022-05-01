@@ -48,8 +48,9 @@ public class CharacterInfoPage extends LightweightGuiDescription {
                         skill.getTotalExperience());
         root.add(totalExpLabel, 10, row );
 
+        // Refactor to be the attribute name of the skill?
         WDynamicLabel label = new WDynamicLabel(() ->
                 skill.getPrimaryAttribute().getName() +
-                        activeSkill.getPrimaryAttribute().calculatedBreakingSpeed());
+                        skill.getPrimaryAttribute().calculatedBreakingSpeed());
     }
 }
