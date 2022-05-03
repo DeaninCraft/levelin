@@ -8,8 +8,8 @@ import com.deanin.utils.MathHelpers;
 public class MiningSpeed extends Attribute {
 
     public MiningSpeed() {
+        super("Mining Speed");
     }
-
 
     /**
      * Calculate speed based on enchanting level
@@ -23,7 +23,6 @@ public class MiningSpeed extends Attribute {
         } else {
             result = 0.0f;
         }
-
         return result;
     }
 }

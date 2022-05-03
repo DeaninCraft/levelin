@@ -36,23 +36,33 @@ public class SkillInfoPage extends LightweightGuiDescription {
     }
     public void displaySkillInfo(WGridPanel root) {
         WLabel skillNameLabel = new WLabel(skill.getName());
-        root.add(skillNameLabel, 1, 1);
+
 
         WDynamicLabel levelLabel = new WDynamicLabel(() ->
                 Integer.toString(skill.getLevel()));
 
-        root.add(levelLabel, 1, 1 );
+
 
         WDynamicLabel levelProgressLabel = new WDynamicLabel(() ->
                 skill.getCurrentExperience() +
                         "/" +
                         skill.getExperienceToNextLevel());
-        root.add(levelProgressLabel, 6, 1 );
+
 
         WDynamicLabel totalExpLabel = new WDynamicLabel(() ->
                 "Total:" +
                         skill.getTotalExperience());
-        root.add(totalExpLabel, 10, 1 );
+
+
+        WDynamicLabel attributeLabel = new WDynamicLabel(() ->
+                skill.getPrimaryAttribute().getName() + ": " +
+                        skill.getPrimaryAttribute().calculatedAttributeValue());
+        root.add(skillNameLabel, 1, 1);
+        root.add(levelLabel, 5, 1 );
+        root.add(levelProgressLabel, 6, 1 );
+        root.add(totalExpLabel, 9, 1 );
+        root.add(attributeLabel, 12, 1);
+
     }
 
     /**

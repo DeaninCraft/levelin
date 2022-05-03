@@ -1,11 +1,13 @@
 package com.deanin.levelin.player;
 
 import com.deanin.levelin.attributes.Attribute;
+import com.deanin.levelin.attributes.farming.FarmingAttribute;
 import com.deanin.levelin.attributes.mining.MiningSpeed;
 import com.deanin.levelin.attributes.woodcutting.WoodcuttingSpeed;
 
 public class Attributes {
     private Attribute[] attributes;
+    private FarmingAttribute farmingAttribute;
     private MiningSpeed miningSpeed;
     private WoodcuttingSpeed woodcuttingSpeed;
     private Skills skills;
@@ -35,6 +37,7 @@ public class Attributes {
     }
     public Attributes(Skills skills) {
         this.skills = skills;
+        farmingAttribute = new FarmingAttribute();
         miningSpeed = new MiningSpeed();
         woodcuttingSpeed = new WoodcuttingSpeed();
         initializeSkillAttributes();
@@ -42,6 +45,7 @@ public class Attributes {
     public void initializeSkillAttributes() {
         skills.getMining().setPrimaryAttribute(miningSpeed);
         skills.getWoodcutting().setPrimaryAttribute(woodcuttingSpeed);
+        skills.getFarming().setPrimaryAttribute(farmingAttribute);
     }
 
 }

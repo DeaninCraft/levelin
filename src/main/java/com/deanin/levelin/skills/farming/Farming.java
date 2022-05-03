@@ -21,7 +21,10 @@ public class Farming extends Skill {
     }
 
     public Farming() {
-        super("Farming", "Farming is the skill of harvesting crops and animals for food products.", 1, 100);
+        super("Farming",
+                "Farming is the skill of harvesting crops and animals for food products.",
+                1,
+                100);
     }
 
     public static int getCropAge(BlockState state) {

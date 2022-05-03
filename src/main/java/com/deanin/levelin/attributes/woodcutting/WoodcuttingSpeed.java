@@ -7,6 +7,10 @@ import com.deanin.utils.MathHelpers;
 
 public class WoodcuttingSpeed extends Attribute {
 
+    public WoodcuttingSpeed() {
+        super("Woodcutting Speed");
+    }
+
     /**
      * Calculate speed based on enchanting level
      */

@@ -5,7 +5,6 @@ import com.deanin.levelin.skills.Skill;
 import io.github.cottonmc.cotton.gui.client.LightweightGuiDescription;
 import io.github.cottonmc.cotton.gui.widget.*;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.LiteralText;
 
 import static com.deanin.levelin.gui.helpers.Layout.getBottomPosition;
@@ -36,40 +35,42 @@ public class CharacterInfoPage extends LightweightGuiDescription {
     public void createGridItem(WGridPanel root, Skill skill, String name, int row) {
         WDynamicLabel nameLabel = new WDynamicLabel(() ->
                 name);
-        root.add(nameLabel, 1, row );
+
 
         WDynamicLabel levelLabel = new WDynamicLabel(() ->
                         Integer.toString(skill.getLevel()));
 
-        root.add(levelLabel, 5, row );
 
         WDynamicLabel levelProgressLabel = new WDynamicLabel(() ->
                         skill.getCurrentExperience() +
                         "/" +
                         skill.getExperienceToNextLevel());
-        root.add(levelProgressLabel, 6, row );
+
 
         WDynamicLabel totalExpLabel = new WDynamicLabel(() ->
                 "Total:" +
                         skill.getTotalExperience());
-        root.add(totalExpLabel, 10, row );
-
         createSkillButton(root, skill, row);
 
-        // Refactor to be the attribute name of the skill?
-        WDynamicLabel label = new WDynamicLabel(() ->
+        WDynamicLabel attributeLabel = new WDynamicLabel(() ->
                 skill.getPrimaryAttribute().getName() + ": " +
-                        skill.getPrimaryAttribute().calculatedBreakingSpeed());
+                        skill.getPrimaryAttribute().calculatedAttributeValue());
+
+        root.add(nameLabel, 1, row);
+        root.add(levelLabel, 5, row);
+        root.add(levelProgressLabel, 6, row);
+        root.add(totalExpLabel, 9, row);
+        root.add(attributeLabel, 12, row);
     }
 
     private void createSkillButton(WGridPanel root, Skill skill, int row) {
-        WButton skillInfoButton = new WButton(new LiteralText("Skill Info"));
+        WButton skillInfoButton = new WButton(new LiteralText("Info"));
 
         skillInfoButton.setOnClick(() -> {
             client.setScreen(new LevelinScreen(new SkillInfoPage(client, skill, this)));
         });
 
-        root.add(skillInfoButton, 14, row, 3, 1);
+        root.add(skillInfoButton, 20, row, 2, 1);
     }
     /**
      * This should be the back button

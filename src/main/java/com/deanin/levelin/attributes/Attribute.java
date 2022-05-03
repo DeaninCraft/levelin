@@ -42,6 +42,11 @@ public class Attribute {
      * attribute's value.
      */
     private Tag[] affectedWeapons;
+
+    public Attribute(String name) {
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }
@@ -89,7 +94,7 @@ public class Attribute {
     public void setAffectedWeapons(Tag[] affectedWeapons) {
         this.affectedWeapons = affectedWeapons;
     }
-    public float calculatedBreakingSpeed() {
+    public float calculatedAttributeValue() {
         return 1.0f;
     }
 
