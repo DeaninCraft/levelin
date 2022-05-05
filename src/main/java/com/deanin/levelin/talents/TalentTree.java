@@ -1,11 +1,14 @@
-package com.deanin.levelin.skills;
+package com.deanin.levelin.talents;
 
 import com.deanin.levelin.abilities.Ability;
 import com.deanin.levelin.attributes.Attribute;
 import com.deanin.levelin.modifiers.Modifier;
 import com.deanin.levelin.requirements.Requirement;
+import com.deanin.levelin.skills.Skill;
 import com.deanin.levelin.talents.Talent;
 import com.deanin.levelin.unlockables.Unlockable;
+
+import java.util.ArrayList;
 
 /**
  * TalentTree is a class that represents a talent tree. It contains a list of
@@ -31,13 +34,13 @@ public class TalentTree {
     /**
      * The list of talents that belong to this talent tree.
      */
-    private Talent[] talents;
+    protected ArrayList<Talent> talents;
 
     /**
      * The list of talents that can currently be purchased. This list is
      * automatically updated when the requirements are met.
      */
-    private Talent[] purchasableTalents;
+    private ArrayList<Talent> purchasableTalents;
     /**
      * The list of requirements that must be met to unlock this talent tree.
      */
@@ -60,6 +63,12 @@ public class TalentTree {
      * or weapon, or a new block.
      */
     private Unlockable[] unlockables;
+
+    public TalentTree(String name, String description) {
+        this.name = name;
+        this.description = description;
+        talents = new ArrayList<Talent>();
+    }
 
     /**
      * The name of the talent tree.
@@ -120,7 +129,7 @@ public class TalentTree {
      * 
      * @return The list of talents that belong to this talent tree.
      */
-    public Talent[] getTalents() {
+    public ArrayList<Talent> getTalents() {
         return talents;
     }
 
@@ -129,7 +138,7 @@ public class TalentTree {
      * 
      * @param talents The list of talents that belong to this talent tree.
      */
-    public void setTalents(Talent[] talents) {
+    public void setTalents(ArrayList<Talent> talents) {
         this.talents = talents;
     }
 
@@ -139,7 +148,7 @@ public class TalentTree {
      * 
      * @return The list of talents that can currently be purchased.
      */
-    public Talent[] getPurchasableTalents() {
+    public ArrayList<Talent> getPurchasableTalents() {
         return purchasableTalents;
     }
 
@@ -147,7 +156,7 @@ public class TalentTree {
      * Sets the list of talents that can currently be purchased. This list is
      * automatically updated when the requirements are met.
      */
-    public void setPurchasableTalents(Talent[] purchasableTalents) {
+    public void setPurchasableTalents(ArrayList<Talent> purchasableTalents) {
         this.purchasableTalents = purchasableTalents;
     }
 
@@ -253,10 +262,9 @@ public class TalentTree {
      * when the requirements are met.
      */
     public void calculatePurchaseableTalents() {
-        for (int i = 0; i < talents.length; i++) {
-            Talent talent = talents[i];
+        for (Talent talent : talents) {
             if (talent.getRequirementsMet()) {
-                purchasableTalents[i] = talent;
+                purchasableTalents.add(talent);
             }
         }
     }

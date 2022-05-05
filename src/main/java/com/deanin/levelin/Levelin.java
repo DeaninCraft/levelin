@@ -27,8 +27,5 @@ public class Levelin implements ModInitializer {
 		LOGGER.info("Initializing Levelin!");
 		ConfigRegister.register();
 		createManager();
-		Manager.player.skills.getMining();
-		Manager.player.skills.getFarming();
-
 	}
 }

@@ -62,7 +62,7 @@ public class ExperienceBarMixin extends DrawableHelper {
         String Experience = "To Next Level: " + activeSkill.getCurrentExperience() +
                 "/" +
                 activeSkill.getExperienceToNextLevel();
-        String blockBreakingSpeedText = "Level: " + breakingSpeed.calculatedAttributeValue();
+        String blockBreakingSpeedText = "Level: " + breakingSpeed.getValue();
 
         drawTextWithShadow(matrixStack, textRenderer, Text.of(activeSkillText), 25, 25, WHITE);
         drawTextWithShadow(matrixStack, textRenderer, Text.of(levelText), 25, 50, WHITE);

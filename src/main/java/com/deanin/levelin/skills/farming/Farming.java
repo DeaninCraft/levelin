@@ -1,30 +1,30 @@
 package com.deanin.levelin.skills.farming;
 
 import com.deanin.levelin.Levelin;
+import com.deanin.levelin.Manager;
+import com.deanin.levelin.attributes.Attribute;
+import com.deanin.levelin.attributes.farming.FarmingAttribute;
 import com.deanin.levelin.skills.Skill;
-import com.deanin.levelin.skills.TalentTree;
 import com.deanin.utils.StringHelpers;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.GourdBlock;
-import net.minecraft.block.PumpkinBlock;
-import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.state.property.IntProperty;
 import net.minecraft.state.property.Property;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class Farming extends Skill {
 
-    public Farming(String name, String description, int level, int levelCap) {
-        super(name, description, level, levelCap);
+    public Farming(String name, String description, int level, int levelCap, Attribute primaryAttribute) {
+        super(name, description, level, levelCap, primaryAttribute);
     }
 
     public Farming() {
         super("Farming",
                 "Farming is the skill of harvesting crops and animals for food products.",
                 1,
-                100);
+                100,
+                new FarmingAttribute());
     }
 
     public static int getCropAge(BlockState state) {

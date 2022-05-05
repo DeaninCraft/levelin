@@ -5,19 +5,20 @@ import com.deanin.levelin.skills.farming.Farming;
 import com.deanin.levelin.skills.mining.Mining;
 import com.deanin.levelin.skills.woodcutting.Woodcutting;
 
+import java.util.ArrayList;
+
 public class Skills {
-    private Skill[] skills;
+    private ArrayList<Skill> skills;
     private Mining mining;
     private Farming farming;
     private Woodcutting woodcutting;
     private Skill activeSkill;
 
-
-    public Skill[] getSkills() {
+    public ArrayList<Skill> getSkills() {
         return skills;
     }
 
-    public void setSkills(Skill[] skills) {
+    public void setSkills(ArrayList<Skill> skills) {
         this.skills = skills;
     }
     public Mining getMining() {
@@ -50,10 +51,11 @@ public class Skills {
         woodcutting = new Woodcutting();
         farming = new Farming();
 
-        setSkills(new Skill[] {
-                farming,
-                mining,
-                woodcutting
-        });
+        skills = new ArrayList<Skill>();
+
+        skills.add(farming);
+        skills.add(mining);
+        skills.add(woodcutting);
+
     }
 }
