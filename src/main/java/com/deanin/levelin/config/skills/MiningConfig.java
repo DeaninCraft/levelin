@@ -28,18 +28,19 @@ public class MiningConfig implements ConfigData {
             Map.entry("minecraft:andesite", 5),
             Map.entry("minecraft:diorite", 6),
             Map.entry("minecraft:iron_ore", 10),
-
             Map.entry("minecraft:redstone_ore", 15),
             Map.entry("minecraft:gold_ore", 20),
             Map.entry("minecraft:diamond_ore", 25),
 
             Map.entry("minecraft:deepslate", 26),
             Map.entry("minecraft:tuff", 27),
-
             Map.entry("minecraft:deepslate_iron_ore", 28),
             Map.entry("minecraft:deepslate_redstone_ore", 29),
             Map.entry("minecraft:deepslate_gold_ore", 30),
-            Map.entry("minecraft:deepslate_diamond_ore", 33));
+            Map.entry("minecraft:emerald_ore", 30),
+            Map.entry("minecraft:deepslate_diamond_ore", 33),
+
+            Map.entry("minecraft:ancient_debris", 66));
 
     @ConfigEntry.Category("skill_settings")
     @Comment("Level requirements to mine each block")

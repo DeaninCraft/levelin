@@ -2,10 +2,7 @@ package com.deanin.levelin.mixin;
 
 import com.deanin.levelin.Manager;
 import com.deanin.levelin.attributes.Attribute;
-import com.deanin.levelin.attributes.mining.MiningSpeed;
 import com.deanin.levelin.skills.Skill;
-import com.deanin.levelin.skills.mining.Mining;
-import io.github.cottonmc.cotton.gui.widget.WDynamicLabel;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
@@ -65,7 +62,7 @@ public class ExperienceBarMixin extends DrawableHelper {
         String Experience = "To Next Level: " + activeSkill.getCurrentExperience() +
                 "/" +
                 activeSkill.getExperienceToNextLevel();
-        String blockBreakingSpeedText = "Level: " + breakingSpeed.calculatedBreakingSpeed();
+        String blockBreakingSpeedText = "Level: " + breakingSpeed.getValue();
 
         drawTextWithShadow(matrixStack, textRenderer, Text.of(activeSkillText), 25, 25, WHITE);
         drawTextWithShadow(matrixStack, textRenderer, Text.of(levelText), 25, 50, WHITE);

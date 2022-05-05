@@ -6,6 +6,9 @@ import com.deanin.levelin.modifiers.Modifier;
 import com.deanin.levelin.requirements.Requirement;
 import com.deanin.levelin.skills.Skill;
 import com.deanin.levelin.unlockables.Unlockable;
+import net.minecraft.client.network.ClientPlayerEntity;
+
+import java.util.ArrayList;
 
 /**
  * A talent is a skill that can be purchased with experience
@@ -36,11 +39,13 @@ public class Talent {
      * The category of this talent. I don't know why I want this to be a thing,
      * but I'm going to leave it for now. My brain thinks maybe for flavor text?
      */
-    private String category;
+    private int category;
     /**
      * The experience cost of this talent.
      */
-    private String cost;
+    private int cost;
+
+    private boolean purchased;
     /**
      * The attribute that this talent modifies.
      */
@@ -61,7 +66,7 @@ public class Talent {
     /**
      * The list of requirements that must be met to unlock this talent.
      */
-    private Requirement[] requirements;
+    private ArrayList<Requirement> requirements;
 
     /**
      * The list of requirements that must be met to unlock this talent.
@@ -123,7 +128,7 @@ public class Talent {
      * 
      * @return The category of this talent.
      */
-    public String getCategory() {
+    public int getCategory() {
         return category;
     }
 
@@ -132,7 +137,7 @@ public class Talent {
      * 
      * @param category The category of this talent.
      */
-    public void setCategory(String category) {
+    public void setCategory(int category) {
         this.category = category;
     }
 
@@ -141,7 +146,7 @@ public class Talent {
      * 
      * @return The experience cost of this talent.
      */
-    public String getCost() {
+    public int getCost() {
         return cost;
     }
 
@@ -150,7 +155,7 @@ public class Talent {
      * 
      * @param cost The experience cost of this talent.
      */
-    public void setCost(String cost) {
+    public void setCost(int cost) {
         this.cost = cost;
     }
 
@@ -231,7 +236,7 @@ public class Talent {
      * 
      * @return The list of requirements that must be met to unlock this talent.
      */
-    public Requirement[] getRequirements() {
+    public ArrayList<Requirement> getRequirements() {
         return requirements;
     }
 
@@ -240,8 +245,27 @@ public class Talent {
      * 
      * @param requirements The list of requirements that must be met to unlock
      */
-    public void setRequirements(Requirement[] requirements) {
+    public void setRequirements(ArrayList<Requirement> requirements) {
         this.requirements = requirements;
+    }
+
+    public void addRequirement(Requirement requirement) {
+        requirements.add(requirement);
+    }
+    public boolean isPurchased() {
+        return purchased;
+    }
+
+    public void setPurchased(boolean purchased) {
+        this.purchased = purchased;
+    }
+
+    public Talent(String name, String description, int cost, Skill skill) {
+        this.name = name;
+        this.description = description;
+        this.cost = cost;
+        this.skill = skill;
+        requirements = new ArrayList<Requirement>();
     }
 
     /**
@@ -251,10 +275,20 @@ public class Talent {
      */
     public boolean getRequirementsMet() {
         for (Requirement requirement : requirements) {
-            if (!requirement.isMet()) {
+            if (!requirement.getIsMet()) {
                 return false;
             }
         }
         return true;
+    }
+    public boolean tryBuy(ClientPlayerEntity player) {
+        if (player.experienceLevel >= cost) {
+            player.addExperienceLevels(-cost);
+            purchased = true;
+            skill.getPrimaryAttribute().talents.add(this);
+            skill.calculateAttributeValue();
+            return true;
+        }
+        return false;
     }
 }

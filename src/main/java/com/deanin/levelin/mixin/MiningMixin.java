@@ -31,10 +31,10 @@ public abstract class MiningMixin {
         Block block = state.getBlock();
         String blockName = StringHelpers.getBlockName(block);
         if (ConfigRegister.MINING_CONFIG.miningBlockXP.containsKey(blockName)) {
-            breakingSpeed = Manager.player.attributes.getMiningSpeed().calculatedBreakingSpeed(blockName);
+            breakingSpeed = Manager.player.attributes.getMiningSpeed().getBlockBreakingSpeed(blockName);
         }
         if (ConfigRegister.WOODCUTTING_CONFIG.woodcuttingBlockXP.containsKey(blockName)) {
-            breakingSpeed = Manager.player.attributes.getWoodcuttingSpeed().calculatedBreakingSpeed(blockName);
+            breakingSpeed = Manager.player.attributes.getWoodcuttingSpeed().getBlockBreakingSpeed(blockName);
         }
 
         cir.setReturnValue(cir.getReturnValueF() * breakingSpeed);

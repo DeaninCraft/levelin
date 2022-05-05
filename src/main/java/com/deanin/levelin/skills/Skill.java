@@ -1,6 +1,7 @@
 package com.deanin.levelin.skills;
 
 import com.deanin.levelin.attributes.Attribute;
+import com.deanin.levelin.talents.TalentTree;
 import com.deanin.utils.MathHelpers;
 
 /**
@@ -118,12 +119,16 @@ public abstract class Skill {
      * @param level    The level of the skill.
      * @param levelCap The level cap of the skill.
      */
-    public Skill(String name, String description, int level, int levelCap) {
+    public Skill(String name, String description, int level, int levelCap, Attribute primaryAttribute) {
         this.name = name;
         this.description = description;
+        this.level = level;
+        this.levelCap = levelCap;
+        this.primaryAttribute = primaryAttribute;
         setLevel(level);
         setLevelCap(levelCap);
         calculateExperienceToNextLevel();
+        calculateAttributeValue();
     }
 
     /**
@@ -151,7 +156,9 @@ public abstract class Skill {
      * @return The new skill level.
      */
     public int levelUp() {
-        return MathHelpers.clampInt(level += 1, 0, levelCap);
+        level = MathHelpers.clampInt(level += 1, 0, levelCap);
+        calculateAttributeValue();
+        return level;
     }
 
     /**
@@ -161,7 +168,9 @@ public abstract class Skill {
      * @return The new skill level.
      */
     public int levelDown() {
-        return MathHelpers.clampInt(level -= 1, minLevel, levelCap);
+        level = MathHelpers.clampInt(level -= 1, minLevel, levelCap);
+        calculateAttributeValue();
+        return level;
     }
 
     public int getCurrentExperience() {
@@ -180,12 +189,12 @@ public abstract class Skill {
         currentExperience = MathHelpers.clampInt(currentExperience += experienceToAdd, 0, Integer.MAX_VALUE);
         totalExperience = MathHelpers.clampInt(totalExperience += experienceToAdd, 0, Integer.MAX_VALUE);
         while (currentExperience >= experienceToNextLevel) {
-            level++;
+            levelUp();
             currentExperience -= experienceToNextLevel;
             calculateExperienceToNextLevel();
         }
         if (currentExperience < 0) {
-            level--;
+            levelDown();
             calculateExperienceToNextLevel();
             currentExperience += experienceToNextLevel - 1;
         }
@@ -201,6 +210,16 @@ public abstract class Skill {
 
         double amountToNextLevel = Math.pow(base, exponent) * (square + 50);
         experienceToNextLevel = (int) amountToNextLevel;
+    }
+
+    public void calculateAttributeValue() {
+        float levelCurve = (float) (Math.log10((level / 4.0F) + 0.25F) - Math.log10(0.25F));
+        float result = MathHelpers.clampFloat(levelCurve, 0.25f, 3.0f);
+
+        float[] modifiers = primaryAttribute.cumulativeAttributeModifiers();
+        result += modifiers[0];
+        result *= modifiers[1];
+        primaryAttribute.setValue(result);
     }
 
     public float getProgressToNextLevel() {

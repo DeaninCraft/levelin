@@ -7,19 +7,22 @@ import com.deanin.utils.MathHelpers;
 
 public class WoodcuttingSpeed extends Attribute {
 
+    public WoodcuttingSpeed() {
+        super("Woodcutting Speed");
+    }
+
     /**
      * Calculate speed based on enchanting level
      */
-    public float calculatedBreakingSpeed(String blockName) {
+    public float getBlockBreakingSpeed(String blockName) {
         float result;
         int woodCuttingLevel = Manager.player.skills.getWoodcutting().getLevel();
         if (woodCuttingLevel >= ConfigRegister.WOODCUTTING_CONFIG.woodcuttingBlockLevelRequirements.get(blockName)) {
-            float levelCurve = (float) (Math.log10((woodCuttingLevel / 4.0D) + 0.25D) - Math.log10(0.25D));
-            result = MathHelpers.clampFloat(levelCurve, 0.25f, 3.0f);
+            result = getValue();
         } else {
             result = 0.0f;
         }
-
         return result;
     }
+
 }

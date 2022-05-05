@@ -1,7 +1,6 @@
 package com.deanin.levelin.events;
 
 import com.deanin.levelin.Levelin;
-import com.deanin.levelin.Manager;
 import com.deanin.levelin.config.ConfigRegister;
 import com.deanin.levelin.player.Skills;
 import com.deanin.levelin.skills.farming.Farming;

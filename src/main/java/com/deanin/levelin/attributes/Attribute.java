@@ -1,6 +1,11 @@
 package com.deanin.levelin.attributes;
 
+import com.deanin.levelin.Manager;
+import com.deanin.levelin.modifiers.Modifier;
+import com.deanin.levelin.talents.Talent;
 import com.mojang.datafixers.types.templates.Tag;
+
+import java.util.ArrayList;
 
 /**
  * The base class for all attributes. An attribute is a value that can be
@@ -17,7 +22,7 @@ public class Attribute {
     /**
      * The value of the attribute.
      */
-    private int value;
+    private float value;
     /**
      * The maximum value of the attribute.
      */
@@ -42,6 +47,14 @@ public class Attribute {
      * attribute's value.
      */
     private Tag[] affectedWeapons;
+
+    public ArrayList<Talent> talents;
+
+    public Attribute(String name) {
+        this.name = name;
+        talents = new ArrayList<Talent>();
+    }
+
     public String getName() {
         return name;
     }
@@ -50,11 +63,11 @@ public class Attribute {
         this.name = name;
     }
 
-    public int getValue() {
+    public float getValue() {
         return value;
     }
 
-    public void setValue(int value) {
+    public void setValue(float value) {
         this.value = value;
     }
 
@@ -89,9 +102,19 @@ public class Attribute {
     public void setAffectedWeapons(Tag[] affectedWeapons) {
         this.affectedWeapons = affectedWeapons;
     }
-    public float calculatedBreakingSpeed() {
-        return 1.0f;
+
+    public float[] cumulativeAttributeModifiers() {
+        float[] result = {0, 1.0f};
+        for (Talent talent : talents) {
+            Modifier.ModifierType modifierType = talent.getModifier().getModifierType();
+            float modifierValue = talent.getModifier().getValue();
+            if (modifierType == Modifier.ModifierType.add) {
+                result[0] += modifierValue;
+            }
+            if (modifierType == Modifier.ModifierType.multiplier) {
+                result[1] *= modifierValue;
+            }
+        }
+        return result;
     }
-
-
 }
