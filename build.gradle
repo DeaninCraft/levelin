@@ -1,6 +1,8 @@
 plugins {
+	id 'java'
 	id 'fabric-loom' version '0.11-SNAPSHOT'
 	id 'maven-publish'
+	id 'idea'
 }
 
 sourceCompatibility = JavaVersion.VERSION_17
@@ -28,9 +30,14 @@ repositories {
 		name = "CottonMC"
 		url = "https://server.bbkr.space/artifactory/libs-release"
 	}
+	mavenCentral()
 }
 
 dependencies {
+	implementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+	implementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+	implementation 'org.testng:testng:7.1.0'
+
 	// To change the versions see the gradle.properties file
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
@@ -48,6 +55,9 @@ dependencies {
 	}
 
 	modImplementation include("io.github.cottonmc:LibGui:5.3.2+1.18.2")
+
+	testImplementation(platform('org.junit:junit-bom:5.8.2'))
+	testImplementation('org.junit.jupiter:junit-jupiter')
 }
 
 processResources {
@@ -101,5 +111,11 @@ publishing {
 			name = "CottonMC"
 			url = "https://server.bbkr.space/artifactory/libs-release"
 		}
+	}
+}
+test {
+	useJUnitPlatform()
+	testLogging {
+		events "passed", "skipped", "failed"
 	}
 }
