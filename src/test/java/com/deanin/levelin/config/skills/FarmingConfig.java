@@ -36,7 +36,6 @@ public class FarmingConfig implements ConfigData {
             Map.entry("minecraft:pumpkin", 3),
             Map.entry("minecraft:melon", 3));
 
-    //TODO: Stalks are kinda weird....you should get a little Xp for every connected stalk, also check age.
     //TODO: Chorus flower gives Xp??
     @ConfigEntry.Category("skill_settings")
     @Comment("List of stalks to go toward farming skill and their xp value.")

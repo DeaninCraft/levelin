@@ -36,13 +36,22 @@ public class FarmingConfig implements ConfigData {
             Map.entry("minecraft:pumpkin", 3),
             Map.entry("minecraft:melon", 3));
 
-    //TODO: Stalks are kinda weird....you should get a little Xp for every connected stalk, also check age.
-    //TODO: Chorus flower gives Xp??
     @ConfigEntry.Category("skill_settings")
     @Comment("List of stalks to go toward farming skill and their xp value.")
     public Map<String, Integer> harvestStalkXp = Map.ofEntries(
             Map.entry("minecraft:cactus", 1),
             Map.entry("minecraft:bamboo", 1),
-            //Map.entry("minecraft:chorus_flower", 3),
             Map.entry("minecraft:sugar_cane", 1));
+
+    //TODO: Interact Event for berries
+    //TODO: Place Event for planting
+
+    //TODO: Chorus flower gives Xp??
+    @ConfigEntry.Category("skill_settings")
+    @Comment("Enable chorus fruit for Xp.")
+    public boolean enableChorusFruit = true;
+
+    @ConfigEntry.Category("skill_settings")
+    @Comment("Amount of Xp for chorus fruit.")
+    public int chorusFruitXp = 3;
 }

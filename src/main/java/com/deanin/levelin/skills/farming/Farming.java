@@ -1,7 +1,6 @@
 package com.deanin.levelin.skills.farming;
 
 import com.deanin.levelin.Levelin;
-import com.deanin.levelin.Manager;
 import com.deanin.levelin.attributes.Attribute;
 import com.deanin.levelin.attributes.farming.FarmingAttribute;
 import com.deanin.levelin.skills.Skill;
